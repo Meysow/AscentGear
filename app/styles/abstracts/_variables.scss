@@ -1,0 +1,32 @@
+$font-1: 'Advent Pro', sans-serif;
+$font-2: 'Expletus Sans', cursive;
+$font-3: 'Lato', sans-serif;
+
+$color-primary: #090979;
+$color-secondary: #00d4ff;
+$color-tertiary: #7a6688;
+$color-dark: #020024;
+$color-black: #050517;
+$color-white: #fff;
+$color-light: #fafafa;
+
+$grid-columns: 12;
+$grid-gutter-width: 3rem;
+
+$box-shadow: 0 1px 2px -2px rgb(0 0 0 / 16%), 0 3px 6px 0 rgb(0 0 0 / 6%),
+    0 5px 12px 4px rgb(0 0 0 / 4%);
+
+$breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+);
+
+$container-max-widths: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1140px,
+);

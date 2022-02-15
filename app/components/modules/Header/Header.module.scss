@@ -1,0 +1,28 @@
+@import '../../../styles/app.scss';
+
+.header {
+    @include bg-gradient;
+    font-family: $font-2;
+    color: $color-light;
+    min-height: 5rem;
+    width: 100%;
+    box-shadow: 1px 3px 7px 3px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 2rem 3rem;
+
+    .logo {
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-right: 3rem;
+    }
+
+    .right {
+        margin-left: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 0 1 20rem;
+        gap: 1rem;
+    }
+}

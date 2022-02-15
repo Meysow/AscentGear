@@ -1,0 +1,11 @@
+@import '../../../styles/app.scss';
+
+.footer {
+    @include bg-gradient;
+    height: 13rem;
+    width: 100%;
+    color: $color-light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

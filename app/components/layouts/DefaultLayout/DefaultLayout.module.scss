@@ -1,0 +1,21 @@
+@import '../../../styles/app.scss';
+
+.main {
+    @include content-width;
+    margin-inline: auto;
+    min-height: 80vh;
+}
+
+.dark-mode {
+    color: $color-light;
+    background: $color-dark;
+
+    //dark mode styles
+}
+
+.light-mode {
+    color: $color-dark;
+    background: $color-light;
+
+    //light mode styles
+}
