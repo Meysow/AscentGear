@@ -41,6 +41,7 @@ h6 {
     font-weight: bold;
     font-family: 'Advent Pro', sans-serif;
     letter-spacing: 0.05rem;
+    text-transform: uppercase;
 }
 
 ol,
@@ -51,6 +52,7 @@ ul {
 img {
     max-width: 100%;
     height: auto;
+    display: block;
 }
 
 a {

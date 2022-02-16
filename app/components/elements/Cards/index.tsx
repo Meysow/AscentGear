@@ -23,9 +23,9 @@ const index = () => {
                     </Link>
 
                     <div className={styles['card__content']}>
-                        <h3 className={styles['card__content--title']}>
+                        <p className={styles['card__content--title']}>
                             {product.name}
-                        </h3>
+                        </p>
                         <div className={styles['card__content--body']}>
                             <p>${product.price}</p>
                             <button>Add to Cart</button>
