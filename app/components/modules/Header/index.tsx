@@ -28,7 +28,10 @@ const Header = () => {
                 </a>
             </Link>
             <div className={styles.right}>
-                <SwitchButton darkModeHandler={darkModeHandler} />
+                <SwitchButton
+                    darkModeHandler={darkModeHandler}
+                    checked={darkMode}
+                />
                 <Link href='/cart'>
                     <a>Cart</a>
                 </Link>
