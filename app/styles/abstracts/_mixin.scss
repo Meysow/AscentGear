@@ -19,24 +19,12 @@
 }
 
 @mixin content-width {
-    width: 100%;
-    max-width: map_get($container-max-widths, xs);
+    width: min(92%, map_get($container-max-widths, xl));
+    // max-width: map_get($container-max-widths, xs);
     padding: 3rem 1rem;
 
-    @include breakpoint('sm') {
-        max-width: map_get($container-max-widths, sm);
-    }
-
-    @include breakpoint('md') {
-        max-width: map_get($container-max-widths, md);
-    }
-
     @include breakpoint('lg') {
-        max-width: map_get($container-max-widths, lg);
-    }
-
-    @include breakpoint('xl') {
-        max-width: map_get($container-max-widths, xl);
+        width: min(88%, map_get($container-max-widths, xl));
     }
 }
 

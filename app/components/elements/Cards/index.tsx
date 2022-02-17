@@ -1,12 +1,13 @@
 import styles from './Cards.module.scss';
-import data from '../../../utils/data';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ProductArray } from '../../../../typings';
 
-const index = () => {
+export default function Cards({ products }: ProductArray) {
+    console.log(products, 'products');
     return (
         <div className={styles.container}>
-            {data.products.map((product) => (
+            {products.map((product) => (
                 <div className={styles.card} key={product.name}>
                     <Link href={`/product/${product.slug}`} passHref>
                         <div className={styles['image-container']}>
@@ -35,6 +36,4 @@ const index = () => {
             ))}
         </div>
     );
-};
-
-export default index;
+}

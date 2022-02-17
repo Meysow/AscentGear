@@ -1,10 +1,11 @@
 import styles from './HomePage.module.scss';
 import Cards from '../../elements/Cards';
+import { ProductArray } from '../../../../typings';
 
-const HomePage = () => (
+const HomePage = ({ products }: ProductArray) => (
     <main className={styles.content}>
         <h2 className={styles.title}>Products</h2>
-        <Cards />
+        <Cards products={products} />
     </main>
 );
 

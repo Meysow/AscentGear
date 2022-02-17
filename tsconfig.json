@@ -15,6 +15,15 @@
         "jsx": "preserve",
         "incremental": true
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/hello.ts"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "pages/api/hello.ts",
+        "pages/api/seed.ts",
+        "models/Product.ts",
+        "app/components/elements/Cards/index.tsx",
+        "lib/dbConnect.js"
+    ],
     "exclude": ["node_modules"]
 }
