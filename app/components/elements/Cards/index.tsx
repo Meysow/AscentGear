@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { ProductArray } from '../../../../typings';
 
 export default function Cards({ products }: ProductArray) {
-    console.log(products, 'products');
     return (
         <div className={styles.container}>
             {products.map((product) => (

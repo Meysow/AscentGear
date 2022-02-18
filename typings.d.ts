@@ -11,8 +11,8 @@ export interface ProductType {
     countInStock: number;
     description: string;
     __v: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface ProductArray {

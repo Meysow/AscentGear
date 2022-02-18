@@ -1,10 +1,11 @@
 import Layout from '../app/components/layouts/DefaultLayout';
 import HomePage from '../app/components/templates/HomePage';
-import dbConnect from '../lib/dbConnect';
+import dbConnect, { convertDocToObj } from '../lib/dbConnect';
 import Product from '../models/Product';
 import { ProductArray } from '../typings';
 
 const Home = ({ products }: ProductArray) => {
+    console.log(products);
     return (
         <Layout>
             <HomePage products={products} />
@@ -19,12 +20,7 @@ export async function getServerSideProps() {
     /* find all the data in our database */
     const results = await Product.find({}).lean();
 
-    const products = results.map((doc) => {
-        doc._id = doc._id.toString();
-        doc.createdAt = doc.createdAt.toString();
-        doc.updatedAt = doc.updatedAt.toString();
-        return doc;
-    });
+    const products = results.map(convertDocToObj);
 
     return { props: { products: products } };
 }

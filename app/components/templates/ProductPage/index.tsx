@@ -18,7 +18,7 @@ interface Props {
     };
 }
 
-const index = ({ product }: Props) => {
+const ProductPage = ({ product }: Props) => {
     return (
         <DefaultLayout>
             <div>
@@ -79,4 +79,4 @@ const index = ({ product }: Props) => {
     );
 };
 
-export default index;
+export default ProductPage;
