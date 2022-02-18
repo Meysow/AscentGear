@@ -9,7 +9,10 @@ interface Props {
     errors?: string;
 }
 
-const ProductScreen = ({ product }: Props) => {
+const ProductScreen = ({ product, errors }: Props) => {
+    if (errors) {
+        return <div>{errors}</div>;
+    }
     if (!product) {
         return <div>Product Not Found !</div>;
     }

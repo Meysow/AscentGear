@@ -1,19 +1,17 @@
 import Link from 'next/link';
 import { useContext } from 'react';
-import { Store, ThemeActionType } from '../../../utils/Store';
+import { Store, ActionType } from '../../../utils/Store';
 import SwitchButton from '../../elements/SwitchButton';
 import styles from './Header.module.scss';
 import Cookies from 'js-cookie';
 
 const Header = () => {
     const { state, dispatch } = useContext(Store);
-    const { darkMode } = state;
+    const { darkMode, cart } = state;
 
     const darkModeHandler = () => {
         dispatch({
-            type: darkMode
-                ? ThemeActionType.DARK_MODE_OFF
-                : ThemeActionType.DARK_MODE_ON,
+            type: darkMode ? ActionType.DARK_MODE_OFF : ActionType.DARK_MODE_ON,
         });
 
         const newDarkMode = !darkMode;
@@ -33,7 +31,14 @@ const Header = () => {
                     checked={darkMode}
                 />
                 <Link href='/cart'>
-                    <a>Cart</a>
+                    <a className={styles.badgeRoot}>
+                        {cart.cartItems.length > 0 && (
+                            <div className={styles.badge}>
+                                {cart.cartItems.length}
+                            </div>
+                        )}
+                        Cart
+                    </a>
                 </Link>
                 <Link href='/login'>
                     <a>Login</a>

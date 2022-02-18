@@ -5,7 +5,6 @@ import Product from '../models/Product';
 import { ProductArray } from '../typings';
 
 const Home = ({ products }: ProductArray) => {
-    console.log(products);
     return (
         <Layout>
             <HomePage products={products} />

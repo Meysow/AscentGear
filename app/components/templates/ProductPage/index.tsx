@@ -2,23 +2,35 @@ import styles from './Product.module.scss';
 import Link from 'next/link';
 import DefaultLayout from '../../layouts/DefaultLayout';
 import Image from 'next/image';
+import { ProductType } from '../../../../typings';
+import { useContext } from 'react';
+import { Store, ActionType } from '../../../utils/Store';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 interface Props {
-    product: {
-        name: string;
-        slug: string;
-        category: string;
-        image: string;
-        price: number;
-        brand: string;
-        rating: number;
-        numReviews: number;
-        countInStock: number;
-        description: string;
-    };
+    product: ProductType;
 }
 
 const ProductPage = ({ product }: Props) => {
+    const router = useRouter();
+    const { dispatch } = useContext(Store);
+
+    const addToCartHandler = async () => {
+        const { data } = await axios.get(`/api/products/${product._id}`);
+
+        if (data.countInStock <= 0) {
+            window.alert('Sorry, Product is out of stock');
+            return;
+        }
+
+        dispatch({
+            type: ActionType.CART_ADD_ITEM,
+            payload: { ...product, quantity: 1 },
+        });
+        router.push('/cart');
+    };
+
     return (
         <DefaultLayout>
             <div>
@@ -70,7 +82,9 @@ const ProductPage = ({ product }: Props) => {
                             </p>
                         </div>
                         <div className={styles.bgWhite}>
-                            <button>ADD TO CART</button>
+                            <button onClick={addToCartHandler}>
+                                ADD TO CART
+                            </button>
                         </div>
                     </div>
                 </div>
