@@ -4,8 +4,8 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 34px;
+    height: 9px;
 }
 
 /* Hide default HTML checkbox */
@@ -19,9 +19,9 @@
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0px;
+    left: 0px;
+    right: 0px;
     bottom: 0;
     background-color: #ccc;
     -webkit-transition: 0.4s;
@@ -37,8 +37,8 @@
         content: '';
         height: 26px;
         width: 26px;
-        left: 4px;
-        bottom: 4px;
+        left: -8px;
+        bottom: -8px;
         background-color: white;
         -webkit-transition: 0.4s;
         transition: 0.4s;

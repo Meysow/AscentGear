@@ -32,7 +32,7 @@ const ProductPage = ({ product }: Props) => {
     };
 
     return (
-        <DefaultLayout>
+        <DefaultLayout title={product.name}>
             <div>
                 <Link href='/'>
                     <a>

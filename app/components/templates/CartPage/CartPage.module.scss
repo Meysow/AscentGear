@@ -1,0 +1,71 @@
+@import '../../../styles/app.scss';
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @include breakpoint('sm') {
+        flex-wrap: nowrap;
+    }
+
+    .rows {
+        flex: 1 1 100%;
+
+        @include breakpoint('sm') {
+            flex: 1 1 70%;
+        }
+    }
+
+    .left {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+
+        // .leftLeft {
+        //     display: flex;
+        //     gap: max(2rem, 1rem + 10vw);
+        //     align-items: center;
+        // }
+        // .leftRight {
+        //     display: flex;
+        //     margin-left: auto;
+        //     gap: max(2rem, 7vw);
+        // }
+
+        & > * {
+            text-align: center;
+        }
+
+        .Image {
+            flex: 1 1 15%;
+
+            img {
+                border-radius: 10%;
+                -webkit-border-radius: 10%;
+                -moz-border-radius: 10%;
+                -ms-border-radius: 10%;
+                -o-border-radius: 10%;
+            }
+        }
+        .Name {
+            flex: 2 1 30%;
+        }
+        .Quantity {
+            flex: 1 1 20%;
+        }
+        .Price {
+            flex: 1 1 15%;
+        }
+        .Action {
+            flex: 1 1 15%;
+        }
+    }
+    .right {
+        flex: 1 1 100%;
+
+        @include breakpoint('sm') {
+            flex: 1 1 25%;
+        }
+    }
+}

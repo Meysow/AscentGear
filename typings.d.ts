@@ -13,6 +13,7 @@ export interface ProductType {
     __v: number;
     createdAt: string;
     updatedAt: string;
+    quantity: number;
 }
 
 export interface ProductArray {

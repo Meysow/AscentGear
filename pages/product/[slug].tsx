@@ -17,9 +17,9 @@ const ProductScreen = ({ product, errors }: Props) => {
         return <div>Product Not Found !</div>;
     }
     return (
-        <div>
+        <>
             <ProductPage product={product} />
-        </div>
+        </>
     );
 };
 
