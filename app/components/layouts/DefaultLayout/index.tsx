@@ -1,10 +1,13 @@
 import Head from 'next/head';
 import styles from './DefaultLayout.module.scss';
-import Header from '../../modules/Header';
 import Footer from '../../modules/Footer';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Store } from '../../../utils/Store';
 import Cookies from 'js-cookie';
+import dynamic from 'next/dynamic';
+const DynamicHeader = dynamic(() => import('../../modules/Header'), {
+    ssr: false,
+});
 
 const DefaultLayout = ({
     title,
@@ -15,19 +18,15 @@ const DefaultLayout = ({
 }) => {
     const { state } = useContext(Store);
     const { darkMode } = state;
-    const [theme, setTheme] = useState('light-mode');
 
-    useEffect(() => {
-        const themeChecker = () => {
-            if (Cookies.get('darkMode' || darkMode === true) === 'ON') {
-                return 'dark-mode';
-            } else return 'light-mode';
-        };
-        setTheme(themeChecker());
-    }, [darkMode]);
+    const themeChecker = () => {
+        if (Cookies.get('darkMode' || darkMode === true) === 'ON') {
+            return 'dark-mode';
+        } else return 'light-mode';
+    };
 
     return (
-        <div className={styles[`${theme}`]}>
+        <div className={styles[`${themeChecker()}`]}>
             <Head>
                 <title>
                     {title ? `${title} - Amazona Next` : 'Amazona Next'}
@@ -39,7 +38,7 @@ const DefaultLayout = ({
                 <link rel='icon' href='/favicon.ico' />
             </Head>
 
-            <Header />
+            <DynamicHeader />
 
             <main className={styles.main}>{children}</main>
 

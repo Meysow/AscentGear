@@ -1,12 +1,15 @@
 import styles from './Product.module.scss';
 import Link from 'next/link';
-import DefaultLayout from '../../layouts/DefaultLayout';
 import Image from 'next/image';
 import { ProductType } from '../../../../typings';
 import { useContext } from 'react';
 import { Store, ActionType } from '../../../utils/Store';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+const DynamicDefaultLayout = dynamic(
+    () => import('../../layouts/DefaultLayout')
+);
 
 interface Props {
     product: ProductType;
@@ -32,7 +35,7 @@ const ProductPage = ({ product }: Props) => {
     };
 
     return (
-        <DefaultLayout title={product.name}>
+        <DynamicDefaultLayout title={product.name}>
             <div>
                 <Link href='/'>
                     <a>
@@ -89,7 +92,7 @@ const ProductPage = ({ product }: Props) => {
                     </div>
                 </div>
             </div>
-        </DefaultLayout>
+        </DynamicDefaultLayout>
     );
 };
 

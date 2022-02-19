@@ -1,9 +1,13 @@
-import CartPage from '../app/components/templates/CartPage';
+import dynamic from 'next/dynamic';
+const DynamicCartPage = dynamic(
+    () => import('../app/components/templates/CartPage'),
+    { ssr: false }
+);
 
 const cartScreen = () => {
     return (
         <>
-            <CartPage />
+            <DynamicCartPage />
         </>
     );
 };

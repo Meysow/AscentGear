@@ -1,14 +1,17 @@
-import Layout from '../app/components/layouts/DefaultLayout';
 import HomePage from '../app/components/templates/HomePage';
 import dbConnect, { convertDocToObj } from '../lib/dbConnect';
 import Product from '../models/Product';
 import { ProductArray } from '../typings';
+import dynamic from 'next/dynamic';
+const DynamicDefaultLayout = dynamic(
+    () => import('../app/components/layouts/DefaultLayout')
+);
 
 const Home = ({ products }: ProductArray) => {
     return (
-        <Layout>
+        <DynamicDefaultLayout>
             <HomePage products={products} />
-        </Layout>
+        </DynamicDefaultLayout>
     );
 };
 
