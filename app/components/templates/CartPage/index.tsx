@@ -8,11 +8,13 @@ import axios from 'axios';
 import Button from '../../elements/Button';
 
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
 
 const CartPage = () => {
+    const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const {
         cart: { cartItems },
@@ -20,9 +22,6 @@ const CartPage = () => {
 
     const handleQuantity = async (item: ProductType, quantity: number) => {
         const { data } = await axios.get(`/api/products/${item._id}`);
-
-        console.log(data.data.countInStock, 'data.data.countInStock');
-        console.log(quantity, 'quantity');
 
         if (data.data.countInStock < quantity) {
             // window.alert('Sorry, Product is out of stock');
@@ -41,6 +40,10 @@ const CartPage = () => {
             type: ActionType.CART_REMOVE_ITEM,
             payload: item,
         });
+    };
+
+    const checkOutHandler = () => {
+        router.push('/shipping');
     };
 
     return (
@@ -162,9 +165,7 @@ const CartPage = () => {
                                 <Button
                                     fullWidth
                                     color={'default'}
-                                    onClickHandler={() =>
-                                        console.log('CheckOut')
-                                    }
+                                    onClickHandler={checkOutHandler}
                                 >
                                     CHECK OUT
                                 </Button>

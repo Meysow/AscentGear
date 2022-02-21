@@ -1,0 +1,71 @@
+@import '../../../styles/app.scss';
+
+.form {
+    max-width: 40rem;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.lbl {
+    font-family: $font-1;
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    color: $color-secondary;
+    animation: 0.3s;
+    -webkit-animation: 0.3s;
+
+    &:hover {
+        color: $color-4;
+
+        & .ipt {
+            border-color: $color-4;
+        }
+    }
+
+    &:focus-within {
+        color: $color-4;
+
+        & .ipt {
+            border-color: $color-4;
+            background-color: rgba($color-4, 0.0318);
+        }
+    }
+}
+
+.ipt {
+    margin-top: 1rem;
+    border: 1px solid $color-dark;
+    border-radius: 0.8rem;
+    -webkit-border-radius: 0.8rem;
+    -moz-border-radius: 0.8rem;
+    -ms-border-radius: 0.8rem;
+    -o-border-radius: 0.8rem;
+    animation: 0.3s;
+    -webkit-animation: 0.3s;
+    outline: none;
+    font-family: $font-3;
+    font-weight: 500;
+    font-size: 1.6rem;
+    color: $color-dark;
+    padding: 1rem 2rem;
+    &::placeholder {
+        font-family: $font-1;
+        font-weight: 500;
+        font-size: 1.6rem;
+        color: $color-dark;
+    }
+}
+
+.btnContainer {
+    margin-top: 1.4rem;
+}
+
+.link {
+    color: $color-4;
+    &:hover {
+        color: $color-5;
+    }
+}
