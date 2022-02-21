@@ -7,6 +7,7 @@ import { Store, ActionType } from '../../../utils/Store';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import Button from '../../elements/Button';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
@@ -39,7 +40,7 @@ const ProductPage = ({ product }: Props) => {
             <div>
                 <Link href='/'>
                     <a>
-                        <p className={styles.marg}>Back To Products</p>
+                        <p className={styles.marg}>↩ Back To Products</p>
                     </a>
                 </Link>
 
@@ -74,7 +75,7 @@ const ProductPage = ({ product }: Props) => {
                     <div className={styles.payment}>
                         <div className={styles.paymentDetails}>
                             <p>Price:</p>
-                            <p>{product.price}</p>
+                            <p>${product.price}</p>
                         </div>
                         <div className={styles.paymentDetails}>
                             <p>Status:</p>
@@ -84,11 +85,10 @@ const ProductPage = ({ product }: Props) => {
                                     : 'Out of Stock'}
                             </p>
                         </div>
-                        <div className={styles.bgWhite}>
-                            <button onClick={addToCartHandler}>
-                                ADD TO CART
-                            </button>
-                        </div>
+
+                        <Button onClickHandler={addToCartHandler}>
+                            ADD TO CART
+                        </Button>
                     </div>
                 </div>
             </div>

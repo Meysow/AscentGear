@@ -24,6 +24,7 @@
     -ms-border-radius: 0.8rem;
     -o-border-radius: 0.8rem;
     height: fit-content;
+    margin-bottom: 2rem;
 }
 
 .containerInfo {
@@ -39,6 +40,8 @@
 .payment {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
     width: 24rem;
     padding: 1.3rem;
     max-height: 12.7rem;
@@ -52,47 +55,10 @@
 
     .paymentDetails {
         display: flex;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
 
         & > * {
             flex: 1 0 50%;
-        }
-    }
-    .bgWhite {
-        overflow: hidden;
-        background: white;
-        border: none;
-        border-radius: 0.6rem;
-        -webkit-border-radius: 0.6rem;
-        -moz-border-radius: 0.6rem;
-        -ms-border-radius: 0.6rem;
-        -o-border-radius: 0.6rem;
-        margin-top: 0.8rem;
-    }
-    button {
-        @include bg-gradient;
-        padding: 0.6rem;
-        width: 100%;
-        color: white;
-        border: 1px hidden;
-        font-weight: 600;
-        border-radius: 0.6rem;
-        -webkit-border-radius: 0.6rem;
-        -moz-border-radius: 0.6rem;
-        -ms-border-radius: 0.6rem;
-        -o-border-radius: 0.6rem;
-        cursor: pointer;
-        transition: all 0.3s;
-        -webkit-transition: all 0.3s;
-        -moz-transition: all 0.3s;
-        -ms-transition: all 0.3s;
-        -o-transition: all 0.3s;
-
-        &:hover {
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            border: 1px solid $color-primary;
         }
     }
 }

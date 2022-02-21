@@ -1,7 +1,9 @@
 @import '../../../styles/app.scss';
 
 .header {
-    @include bg-gradient;
+    // @include bg-gradient;
+    background-color: $color-primary;
+
     font-family: $font-2;
     color: $color-light;
     min-height: 5rem;

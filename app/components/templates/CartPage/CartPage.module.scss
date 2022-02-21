@@ -6,15 +6,38 @@
     gap: 1rem;
     margin-top: 2rem;
 
-    @include breakpoint('sm') {
+    @include breakpoint('md') {
         flex-wrap: nowrap;
+    }
+
+    .blue {
+        color: $color-4;
+        font-weight: 600;
+        transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        -ms-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        &:hover {
+            color: $color-5;
+        }
     }
 
     .rows {
         flex: 1 1 100%;
 
-        @include breakpoint('sm') {
+        @include breakpoint('md') {
             flex: 1 1 70%;
+        }
+        .hrTop {
+            border: 0 none;
+            height: 2px;
+            background-color: rgba($color-dark, 0.618);
+        }
+        .hrBottom {
+            border: 0 none;
+            height: 2px;
+            background-color: rgba($color-dark, 0.318);
         }
     }
 
@@ -22,17 +45,6 @@
         display: flex;
         gap: 0.8rem;
         align-items: center;
-
-        // .leftLeft {
-        //     display: flex;
-        //     gap: max(2rem, 1rem + 10vw);
-        //     align-items: center;
-        // }
-        // .leftRight {
-        //     display: flex;
-        //     margin-left: auto;
-        //     gap: max(2rem, 7vw);
-        // }
 
         & > * {
             text-align: center;
@@ -60,13 +72,34 @@
         }
         .Action {
             flex: 1 1 15%;
+            display: flex;
+            justify-content: center;
+            div {
+                width: 3rem;
+                height: 3rem;
+            }
         }
     }
+
     .right {
+        margin-top: 2.5rem;
         flex: 1 1 100%;
 
-        @include breakpoint('sm') {
+        @include breakpoint('md') {
             flex: 1 1 25%;
+            margin-top: 0;
+        }
+        .card {
+            @include card;
+            padding: 2rem;
+            max-width: 23rem;
+            margin-left: 1rem;
+            @include breakpoint('lg') {
+                margin-left: max(2rem, 1rem + 5vw);
+            }
+            & > p {
+                margin-bottom: 1.618rem;
+            }
         }
     }
 }

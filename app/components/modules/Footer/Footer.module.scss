@@ -1,7 +1,9 @@
 @import '../../../styles/app.scss';
 
 .footer {
-    @include bg-gradient;
+    // @include bg-gradient;
+    background-color: $color-primary;
+
     height: 13rem;
     width: 100%;
     color: $color-light;

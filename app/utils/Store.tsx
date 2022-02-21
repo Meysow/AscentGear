@@ -11,6 +11,7 @@ export enum ActionType {
     DARK_MODE_ON,
     DARK_MODE_OFF,
     CART_ADD_ITEM,
+    CART_REMOVE_ITEM,
 }
 
 interface IAction {
@@ -51,6 +52,14 @@ function reducer(state: InitialStateType, action: IAction) {
                       item.name === existItem.name ? newItem : item
                   )
                 : [...state.cart.cartItems, newItem];
+            Cookies.set('cartItems', JSON.stringify(cartItems));
+            return { ...state, cart: { ...state.cart, cartItems } };
+        }
+        case ActionType.CART_REMOVE_ITEM: {
+            const targetItem: any = action.payload;
+            const cartItems = state.cart.cartItems.filter(
+                (item: ProductType) => item._id !== targetItem._id
+            );
             Cookies.set('cartItems', JSON.stringify(cartItems));
             return { ...state, cart: { ...state.cart, cartItems } };
         }
