@@ -18,7 +18,7 @@ interface Props {
 
 const ProductPage = ({ product }: Props) => {
     const router = useRouter();
-    const { dispatch } = useContext(Store);
+    const { dispatch, state } = useContext(Store);
 
     const addToCartHandler = async () => {
         const { data } = await axios.get(`/api/products/${product._id}`);
@@ -27,10 +27,14 @@ const ProductPage = ({ product }: Props) => {
             window.alert('Sorry, Product is out of stock');
             return;
         }
+        const existItem = state.cart.cartItems.find(
+            (x: ProductType) => x._id === product._id
+        );
+        const quantity = existItem ? existItem.quantity + 1 : 1;
 
         dispatch({
             type: ActionType.CART_ADD_ITEM,
-            payload: { ...product, quantity: 1 },
+            payload: { ...product, quantity },
         });
         router.push('/cart');
     };

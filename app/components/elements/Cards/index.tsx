@@ -9,7 +9,7 @@ import { ActionType, Store } from '../../../utils/Store';
 import { useRouter } from 'next/router';
 
 export default function Cards({ products }: ProductArray) {
-    const { dispatch } = useContext(Store);
+    const { dispatch, state } = useContext(Store);
     const router = useRouter();
 
     const addToCartHandler = async (product: ProductType) => {
@@ -20,9 +20,14 @@ export default function Cards({ products }: ProductArray) {
             return;
         }
 
+        const existItem = state.cart.cartItems.find(
+            (x: ProductType) => x._id === product._id
+        );
+        const quantity = existItem ? existItem.quantity + 1 : 1;
+
         dispatch({
             type: ActionType.CART_ADD_ITEM,
-            payload: { ...product, quantity: 1 },
+            payload: { ...product, quantity },
         });
         router.push('/cart');
     };
