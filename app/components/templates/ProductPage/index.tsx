@@ -23,7 +23,7 @@ const ProductPage = ({ product }: Props) => {
     const addToCartHandler = async () => {
         const { data } = await axios.get(`/api/products/${product._id}`);
 
-        if (data.countInStock <= 0) {
+        if (data.data.countInStock <= 0) {
             window.alert('Sorry, Product is out of stock');
             return;
         }
@@ -31,6 +31,11 @@ const ProductPage = ({ product }: Props) => {
             (x: ProductType) => x._id === product._id
         );
         const quantity = existItem ? existItem.quantity + 1 : 1;
+
+        if (data.data.countInStock < quantity) {
+            window.alert('Sorry, Product is out of stock');
+            return;
+        }
 
         dispatch({
             type: ActionType.CART_ADD_ITEM,

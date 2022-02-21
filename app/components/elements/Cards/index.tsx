@@ -15,7 +15,9 @@ export default function Cards({ products }: ProductArray) {
     const addToCartHandler = async (product: ProductType) => {
         const { data } = await axios.get(`/api/products/${product._id}`);
 
-        if (data.countInStock <= 0) {
+        console.log(data.data.countInStock, 'data.data.countInStock Cards');
+
+        if (data.data.countInStock <= 0) {
             window.alert('Sorry, Product is out of stock');
             return;
         }
@@ -24,6 +26,11 @@ export default function Cards({ products }: ProductArray) {
             (x: ProductType) => x._id === product._id
         );
         const quantity = existItem ? existItem.quantity + 1 : 1;
+
+        if (data.data.countInStock < quantity) {
+            window.alert('Sorry, Product is out of stock');
+            return;
+        }
 
         dispatch({
             type: ActionType.CART_ADD_ITEM,
