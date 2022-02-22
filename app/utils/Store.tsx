@@ -5,6 +5,7 @@ import { ProductType } from '../../typings';
 interface InitialStateType {
     darkMode: boolean;
     cart: any;
+    userInfo: any;
 }
 
 export enum ActionType {
@@ -12,6 +13,8 @@ export enum ActionType {
     DARK_MODE_OFF,
     CART_ADD_ITEM,
     CART_REMOVE_ITEM,
+    USER_LOGIN,
+    USER_LOGOUT,
 }
 
 interface IAction {
@@ -26,6 +29,9 @@ const initialState = {
             ? JSON.parse(Cookies.get('cartItems')!)
             : [],
     },
+    userInfo: Cookies.get('userInfo')
+        ? JSON.parse(Cookies.get('userInfo')!)
+        : null,
 };
 
 export const Store = createContext<{
@@ -63,6 +69,10 @@ function reducer(state: InitialStateType, action: IAction) {
             Cookies.set('cartItems', JSON.stringify(cartItems));
             return { ...state, cart: { ...state.cart, cartItems } };
         }
+        case ActionType.USER_LOGIN:
+            return { ...state, userInfo: action.payload };
+        case ActionType.USER_LOGOUT:
+            return { ...state, userInfo: null, cart: { cartItems: [] } };
         default:
             return state;
     }

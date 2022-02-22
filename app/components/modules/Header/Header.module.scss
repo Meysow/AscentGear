@@ -26,6 +26,9 @@
         align-items: center;
         flex: 0 1 20rem;
         gap: 1rem;
+        a {
+            padding: 1.4rem;
+        }
     }
 
     .badgeRoot {
@@ -33,9 +36,9 @@
     }
 
     .badge {
-        top: -10px;
-        right: -15px;
-        height: 20px;
+        top: 0px;
+        right: 0px;
+        height: 19px;
         display: flex;
         z-index: 1;
         position: absolute;
@@ -50,5 +53,32 @@
         align-content: center;
         justify-content: center;
         background-color: $color-tertiary;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdownContent {
+        display: none;
+        position: absolute;
+        background-color: $color-4;
+        left: -2.3rem;
+        min-width: 11rem;
+        //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 1rem;
+        -webkit-border-radius: 1rem;
+        -moz-border-radius: 1rem;
+        -ms-border-radius: 1rem;
+        -o-border-radius: 1rem;
+
+        &.active {
+            display: block;
+        }
+        &.inactive {
+            display: none;
+        }
     }
 }

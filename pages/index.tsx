@@ -4,7 +4,10 @@ import Product from '../models/Product';
 import { ProductArray } from '../typings';
 import dynamic from 'next/dynamic';
 const DynamicDefaultLayout = dynamic(
-    () => import('../app/components/layouts/DefaultLayout')
+    () => import('../app/components/layouts/DefaultLayout'),
+    {
+        ssr: false,
+    }
 );
 
 const Home = ({ products }: ProductArray) => {

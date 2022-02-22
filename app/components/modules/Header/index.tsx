@@ -1,13 +1,17 @@
 import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Store, ActionType } from '../../../utils/Store';
 import SwitchButton from '../../elements/SwitchButton';
 import styles from './Header.module.scss';
 import Cookies from 'js-cookie';
+import Button from '../../elements/Button';
+import { useRouter } from 'next/router';
 
 const Header = () => {
+    const [active, setActive] = useState(false);
     const { state, dispatch } = useContext(Store);
-    const { darkMode, cart } = state;
+    const { darkMode, cart, userInfo } = state;
+    const router = useRouter();
 
     const darkModeHandler = () => {
         dispatch({
@@ -16,6 +20,14 @@ const Header = () => {
 
         const newDarkMode = !darkMode;
         Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
+    };
+
+    const logoutHandler = () => {
+        setActive(false);
+        dispatch({ type: ActionType.USER_LOGOUT });
+        Cookies.remove('userInfo');
+        Cookies.remove('cartItems');
+        router.push('/');
     };
 
     return (
@@ -40,9 +52,32 @@ const Header = () => {
                         Cart
                     </a>
                 </Link>
-                <Link href='/login'>
-                    <a>Login</a>
-                </Link>
+                {userInfo ? (
+                    <div className={styles.dropdown}>
+                        <Button onClickHandler={() => setActive(!active)}>
+                            {userInfo.name}
+                        </Button>
+                        <div
+                            className={`${styles.dropdownContent} ${
+                                styles[`${active ? 'active' : 'inactive'}`]
+                            }`}
+                        >
+                            <Button onClickHandler={() => setActive(false)}>
+                                Profile
+                            </Button>
+                            <Button onClickHandler={() => setActive(false)}>
+                                My account
+                            </Button>
+                            <Button onClickHandler={logoutHandler}>
+                                Logout
+                            </Button>
+                        </div>
+                    </div>
+                ) : (
+                    <Link href='/login'>
+                        <a>Login</a>
+                    </Link>
+                )}
             </div>
         </nav>
     );
