@@ -3,11 +3,12 @@ import axios from 'axios';
 import Link from 'next/link';
 import { ActionType, Store } from '../../../utils/Store';
 import Button from '../../elements/Button';
-import styles from './LoginPage.module.scss';
+// import DefaultLayout from '../../layouts/DefaultLayout';
+import styles from './RegisterPage.module.scss';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 const DynamicDefaultLayout = dynamic(
@@ -15,11 +16,13 @@ const DynamicDefaultLayout = dynamic(
 );
 
 type FormValues = {
+    name: string;
     email: string;
     password: string;
+    confirmPassword: string;
 };
 
-const LoginPage = () => {
+const RegisterPage = () => {
     const { register, handleSubmit, formState } = useForm<FormValues>();
     const { state, dispatch } = useContext(Store);
     const { userInfo } = state;
@@ -32,12 +35,17 @@ const LoginPage = () => {
         }
     }, []);
 
-    const submitHandler: SubmitHandler<FormValues> = async (
-        formData: FormValues
-    ) => {
-        const { email, password } = formData;
+    const submitHandler = async (formData: FormValues) => {
+        const { name, email, password, confirmPassword } = formData;
+        if (password !== confirmPassword) {
+            toast.error(`Passwords don't match`, {
+                theme: 'colored',
+            });
+            return;
+        }
         try {
-            const { data } = await axios.post('/api/users/login', {
+            const { data } = await axios.post('/api/users/register', {
+                name,
                 email,
                 password,
             });
@@ -58,12 +66,31 @@ const LoginPage = () => {
     };
 
     return (
-        <DynamicDefaultLayout>
+        <DynamicDefaultLayout title='Register'>
             <form
                 onSubmit={handleSubmit(submitHandler)}
                 className={styles.form}
             >
-                <h1>Login</h1>
+                <h1>Register</h1>
+                <div>
+                    <label className={styles.lbl}>
+                        Name
+                        <input
+                            type='text'
+                            id='name'
+                            className={styles.ipt}
+                            placeholder='Name'
+                            {...register('name', {
+                                required: 'Password is required',
+                            })}
+                        />
+                    </label>
+                    {formState?.errors?.name && (
+                        <p className={styles.error}>
+                            {formState?.errors?.name.message}
+                        </p>
+                    )}
+                </div>
                 <div>
                     <label className={styles.lbl}>
                         Email
@@ -107,13 +134,35 @@ const LoginPage = () => {
                         </p>
                     )}
                 </div>
+                <div>
+                    <label className={styles.lbl}>
+                        Confirm Password
+                        <input
+                            type='password'
+                            id='confirmPassword'
+                            placeholder='Confirm Password'
+                            className={styles.ipt}
+                            {...register('confirmPassword', {
+                                required: 'Confirm Password is required',
+                                minLength: 6,
+                            })}
+                        />
+                    </label>
+                    {formState?.errors?.confirmPassword && (
+                        <p className={styles.error}>
+                            {formState?.errors?.confirmPassword.message}
+                        </p>
+                    )}
+                </div>
                 <div className={styles.btnContainer}>
-                    <Button onClickHandler={() => submitHandler}>Login</Button>
+                    <Button onClickHandler={() => submitHandler}>
+                        Register
+                    </Button>
                 </div>
                 <p>
-                    Don&apos;t have an Account ?{'  '}
-                    <Link href={`/register?redirect=${redirect || '/'}`}>
-                        <a className={styles.link}>Register</a>
+                    Already have an account ?{'  '}
+                    <Link href={`/login?redirect=${redirect || '/'}`}>
+                        <a className={styles.link}>Login</a>
                     </Link>
                 </p>
             </form>
@@ -121,4 +170,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

@@ -31,55 +31,57 @@ const Header = () => {
     };
 
     return (
-        <nav className={styles.header}>
-            <Link href='/'>
-                <a>
-                    <div className={styles.logo}>Amazona</div>
-                </a>
-            </Link>
-            <div className={styles.right}>
-                <SwitchButton
-                    darkModeHandler={darkModeHandler}
-                    checked={darkMode}
-                />
-                <Link href='/cart'>
-                    <a className={styles.badgeRoot}>
-                        {cart.cartItems.length > 0 && (
-                            <div className={styles.badge}>
-                                {cart.cartItems.length}
-                            </div>
-                        )}
-                        Cart
+        <div className={styles.headerWrapper}>
+            <nav className={styles.header}>
+                <Link href='/'>
+                    <a>
+                        <div className={styles.logo}>Amazona</div>
                     </a>
                 </Link>
-                {userInfo ? (
-                    <div className={styles.dropdown}>
-                        <Button onClickHandler={() => setActive(!active)}>
-                            {userInfo.name}
-                        </Button>
-                        <div
-                            className={`${styles.dropdownContent} ${
-                                styles[`${active ? 'active' : 'inactive'}`]
-                            }`}
-                        >
-                            <Button onClickHandler={() => setActive(false)}>
-                                Profile
-                            </Button>
-                            <Button onClickHandler={() => setActive(false)}>
-                                My account
-                            </Button>
-                            <Button onClickHandler={logoutHandler}>
-                                Logout
-                            </Button>
-                        </div>
-                    </div>
-                ) : (
-                    <Link href='/login'>
-                        <a>Login</a>
+                <div className={styles.right}>
+                    <SwitchButton
+                        darkModeHandler={darkModeHandler}
+                        checked={darkMode}
+                    />
+                    <Link href='/cart'>
+                        <a className={styles.badgeRoot}>
+                            {cart.cartItems.length > 0 && (
+                                <div className={styles.badge}>
+                                    {cart.cartItems.length}
+                                </div>
+                            )}
+                            Cart
+                        </a>
                     </Link>
-                )}
-            </div>
-        </nav>
+                    {userInfo ? (
+                        <div className={styles.dropdown}>
+                            <Button onClickHandler={() => setActive(!active)}>
+                                {userInfo.name}
+                            </Button>
+                            <div
+                                className={`${styles.dropdownContent} ${
+                                    styles[`${active ? 'active' : 'inactive'}`]
+                                }`}
+                            >
+                                <Button onClickHandler={() => setActive(false)}>
+                                    Profile
+                                </Button>
+                                <Button onClickHandler={() => setActive(false)}>
+                                    My account
+                                </Button>
+                                <Button onClickHandler={logoutHandler}>
+                                    Logout
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <Link href='/login'>
+                            <a>Login</a>
+                        </Link>
+                    )}
+                </div>
+            </nav>
+        </div>
     );
 };
 

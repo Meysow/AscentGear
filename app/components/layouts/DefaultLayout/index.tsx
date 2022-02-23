@@ -5,6 +5,9 @@ import { useContext } from 'react';
 import { Store } from '../../../utils/Store';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 const DynamicHeader = dynamic(() => import('../../modules/Header'), {
     ssr: false,
 });
@@ -40,6 +43,17 @@ const DefaultLayout = ({
 
             <DynamicHeader />
 
+            <ToastContainer
+                position='top-center'
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <main className={styles.main}>{children}</main>
 
             <Footer />

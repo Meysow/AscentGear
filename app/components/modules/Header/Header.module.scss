@@ -1,17 +1,27 @@
 @import '../../../styles/app.scss';
 
-.header {
+.headerWrapper {
     // @include bg-gradient;
     background-color: $color-primary;
+    padding: 1rem 1.5rem;
+    width: 100%;
+    min-height: 5rem;
+    box-shadow: 1px 3px 7px 3px rgba(0, 0, 0, 0.2);
+    @include breakpoint('sm') {
+        padding: 1.5rem 2.75rem;
+    }
+    @include breakpoint('md') {
+        padding: 2rem 3rem;
+    }
+}
 
+.header {
+    max-width: map_get($container-max-widths, xl);
     font-family: $font-2;
     color: $color-light;
-    min-height: 5rem;
-    width: 100%;
-    box-shadow: 1px 3px 7px 3px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
-    padding: 2rem 3rem;
+    margin-inline: auto;
 
     .logo {
         font-size: 2.4rem;
@@ -25,7 +35,6 @@
         justify-content: space-between;
         align-items: center;
         flex: 0 1 20rem;
-        gap: 1rem;
         a {
             padding: 1.4rem;
         }
@@ -64,9 +73,10 @@
         display: none;
         position: absolute;
         background-color: $color-4;
-        left: -2.3rem;
-        min-width: 11rem;
-        //box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        right: 0;
+        top: 3.3rem;
+        min-width: 13rem;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
         border-radius: 1rem;
         -webkit-border-radius: 1rem;
