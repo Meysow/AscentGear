@@ -124,7 +124,11 @@ const RegisterPage = () => {
                             className={styles.ipt}
                             {...register('password', {
                                 required: 'Password is required',
-                                minLength: 6,
+                                minLength: {
+                                    value: 6,
+                                    message:
+                                        'Password must contain at least 6 characters',
+                                },
                             })}
                         />
                     </label>
@@ -144,7 +148,11 @@ const RegisterPage = () => {
                             className={styles.ipt}
                             {...register('confirmPassword', {
                                 required: 'Confirm Password is required',
-                                minLength: 6,
+                                minLength: {
+                                    value: 6,
+                                    message:
+                                        'Password must contain at least 6 characters',
+                                },
                             })}
                         />
                     </label>
