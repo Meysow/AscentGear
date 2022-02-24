@@ -62,5 +62,12 @@
                 color: $color-light;
             }
         }
+
+        &.current {
+            .stepperNumber {
+                background-color: $color-5;
+                color: $color-light;
+            }
+        }
     }
 }

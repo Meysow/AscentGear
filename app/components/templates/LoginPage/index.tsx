@@ -35,6 +35,7 @@ const LoginPage = () => {
     const submitHandler: SubmitHandler<FormValues> = async (
         formData: FormValues
     ) => {
+        toast.dismiss();
         const { email, password } = formData;
         try {
             const { data } = await axios.post('/api/users/login', {

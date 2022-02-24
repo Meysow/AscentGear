@@ -16,6 +16,7 @@ export enum ActionType {
     USER_LOGIN,
     USER_LOGOUT,
     SAVE_SHIPPING_ADDRESS,
+    SAVE_PAYMENT_METHOD,
 }
 
 interface IAction {
@@ -32,6 +33,9 @@ const initialState = {
         shippingAddress: Cookies.get('shippingAddress')
             ? JSON.parse(Cookies.get('shippingAddress')!)
             : {},
+        paymentMethod: Cookies.get('paymentMethod')
+            ? JSON.parse(Cookies.get('paymentMethod')!)
+            : '',
     },
     userInfo: Cookies.get('userInfo')
         ? JSON.parse(Cookies.get('userInfo')!)
@@ -77,6 +81,11 @@ function reducer(state: InitialStateType, action: IAction) {
             return {
                 ...state,
                 cart: { ...state.cart, shippingAddress: action.payload },
+            };
+        case ActionType.SAVE_PAYMENT_METHOD:
+            return {
+                ...state,
+                cart: { ...state.cart, paymentMethod: action.payload },
             };
         case ActionType.USER_LOGIN:
             return { ...state, userInfo: action.payload };

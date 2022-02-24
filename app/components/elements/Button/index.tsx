@@ -5,6 +5,7 @@ interface ButtonProps {
     children: ReactChild | ReactChildren;
     fullWidth?: boolean;
     color?: string;
+    shadow?: boolean;
     onClickHandler: () => void;
 }
 
@@ -12,13 +13,15 @@ const Button = ({
     children,
     fullWidth = false,
     color = 'default',
+    shadow = false,
     onClickHandler,
 }: ButtonProps) => {
-    const btnFull = fullWidth && 'fullWidth';
+    const btnFull = fullWidth ? styles.fullWidth : '';
+    const btnShadow = shadow ? styles.shadow : '';
 
     return (
         <div
-            className={`${styles.btnContainer} ${styles[`${btnFull}`]} ${
+            className={`${styles.btnContainer} ${btnFull} ${btnShadow} ${
                 styles[`${color}`]
             }`}
         >

@@ -11,8 +11,12 @@ const CheckoutWizard = ({ activeStep = 0 }: Props) => {
         'Payment Method',
         'Place Order',
     ];
-    const variant = (index: number) =>
-        index < activeStep ? styles.active : styles.inactive;
+    const variant = (index: number) => {
+        if (index === activeStep) {
+            return styles.current;
+        }
+        return index < activeStep ? styles.active : '';
+    };
 
     return (
         <ol className={styles.stepper}>
