@@ -1,5 +1,9 @@
 @import '../../../styles/app.scss';
 
+.wrapper {
+    margin-bottom: max(3rem, min(calc(2rem + 2vw), 5rem));
+}
+
 .form {
     max-width: 40rem;
     margin-inline: auto;

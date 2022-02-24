@@ -15,6 +15,7 @@ export enum ActionType {
     CART_REMOVE_ITEM,
     USER_LOGIN,
     USER_LOGOUT,
+    SAVE_SHIPPING_ADDRESS,
 }
 
 interface IAction {
@@ -28,6 +29,9 @@ const initialState = {
         cartItems: Cookies.get('cartItems')
             ? JSON.parse(Cookies.get('cartItems')!)
             : [],
+        shippingAddress: Cookies.get('shippingAddress')
+            ? JSON.parse(Cookies.get('shippingAddress')!)
+            : {},
     },
     userInfo: Cookies.get('userInfo')
         ? JSON.parse(Cookies.get('userInfo')!)
@@ -69,6 +73,11 @@ function reducer(state: InitialStateType, action: IAction) {
             Cookies.set('cartItems', JSON.stringify(cartItems));
             return { ...state, cart: { ...state.cart, cartItems } };
         }
+        case ActionType.SAVE_SHIPPING_ADDRESS:
+            return {
+                ...state,
+                cart: { ...state.cart, shippingAddress: action.payload },
+            };
         case ActionType.USER_LOGIN:
             return { ...state, userInfo: action.payload };
         case ActionType.USER_LOGOUT:

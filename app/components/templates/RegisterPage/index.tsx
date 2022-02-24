@@ -3,7 +3,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import { ActionType, Store } from '../../../utils/Store';
 import Button from '../../elements/Button';
-// import DefaultLayout from '../../layouts/DefaultLayout';
 import styles from './RegisterPage.module.scss';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
@@ -33,6 +32,7 @@ const RegisterPage = () => {
         if (userInfo) {
             router.push('/');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const submitHandler = async (formData: FormValues) => {
@@ -81,7 +81,7 @@ const RegisterPage = () => {
                             className={styles.ipt}
                             placeholder='Name'
                             {...register('name', {
-                                required: 'Password is required',
+                                required: 'Name is required',
                             })}
                         />
                     </label>

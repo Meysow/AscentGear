@@ -5,7 +5,7 @@
     margin-inline: auto;
     display: flex;
     flex-direction: column;
-    gap: 1.4rem;
+    gap: 2.3rem;
 }
 
 .lbl {
@@ -75,4 +75,5 @@
     font-size: 1rem;
     color: $color-danger;
     margin-top: 0.3rem;
+    position: absolute;
 }

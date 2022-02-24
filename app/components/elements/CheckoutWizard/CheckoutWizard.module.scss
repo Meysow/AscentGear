@@ -1,0 +1,66 @@
+@import '../../../styles/app.scss';
+
+.stepper {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: decimal;
+    $spacing: 0.5rem;
+    $size: max(3rem, min(2.5rem + 2vw, 4.5rem));
+
+    .stepperItem {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        &:not(:last-child):after {
+            content: '';
+            position: relative;
+            top: calc(10px + $size / 2);
+            height: 2px;
+            background-color: $color-tertiary;
+            order: -1;
+            width: calc(100% - $size - calc($spacing * 2));
+            left: calc(50% + calc($size / 2 + $spacing));
+        }
+
+        &:last-child:after {
+            content: '';
+            height: 2px;
+            order: -1;
+            width: 0;
+        }
+
+        .stepperNumber {
+            font-size: clamp(1.2rem, 1rem + 2vw, 1.7rem);
+            line-height: $size;
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: $size;
+            height: $size;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            margin: 1rem auto 1rem;
+            background-color: $color-tertiary;
+        }
+
+        .stepperTitle {
+            font-size: clamp(1rem, 0.8rem + 1vw, 1.6rem);
+        }
+
+        &.active {
+            &:not(:last-child):after {
+                background-color: $color-4;
+            }
+
+            .stepperNumber {
+                background-color: $color-4;
+                color: $color-light;
+            }
+        }
+    }
+}
