@@ -34,3 +34,35 @@ export interface UserType {
 export interface UserArray {
     users: UserType[];
 }
+
+export interface OrderType {
+    _id: string;
+    user: UserType;
+    orderItems: [
+        {
+            name: string;
+            quantity: number;
+            image: string;
+            price: number;
+        }
+    ];
+    shippingAddress: {
+        name: string;
+        address: string;
+        city: string;
+        postalCode: string;
+        country: string;
+    };
+    paymentMethod: string;
+    itemsPrice: number;
+    shippingPrice: number;
+    taxPrice: number;
+    totalPrice: number;
+    isPaid?: boolean;
+    isDelivered?: boolean;
+    paidAt: string;
+    deliveredAt: string;
+    __v: number;
+    createdAt: string;
+    updatedAt: string;
+}

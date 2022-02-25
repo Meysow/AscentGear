@@ -17,6 +17,7 @@ export enum ActionType {
     USER_LOGOUT,
     SAVE_SHIPPING_ADDRESS,
     SAVE_PAYMENT_METHOD,
+    CART_CLEAR,
 }
 
 interface IAction {

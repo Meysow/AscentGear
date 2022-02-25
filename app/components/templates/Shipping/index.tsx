@@ -16,7 +16,7 @@ type FormValues = {
     name: string;
     address: string;
     city: string;
-    postalCode: number;
+    postalCode: string;
     country: string;
 };
 
@@ -86,7 +86,7 @@ const ShippingPage = () => {
                         <label className={styles.lbl}>
                             Address
                             <input
-                                type='address'
+                                type='text'
                                 id='address'
                                 placeholder='Address'
                                 className={styles.ipt}
@@ -105,7 +105,7 @@ const ShippingPage = () => {
                         <label className={styles.lbl}>
                             City
                             <input
-                                type='city'
+                                type='text'
                                 id='city'
                                 placeholder='City'
                                 className={styles.ipt}
@@ -124,7 +124,7 @@ const ShippingPage = () => {
                         <label className={styles.lbl}>
                             Postal Code
                             <input
-                                type='postalCode'
+                                type='text'
                                 id='postalCode'
                                 placeholder='Postal Code'
                                 className={styles.ipt}
@@ -143,7 +143,7 @@ const ShippingPage = () => {
                         <label className={styles.lbl}>
                             Coutry
                             <input
-                                type='coutry'
+                                type='text'
                                 id='coutry'
                                 placeholder='Coutry'
                                 className={styles.ipt}

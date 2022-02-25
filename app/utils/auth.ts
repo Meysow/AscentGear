@@ -23,3 +23,21 @@ export const signToken = (user: UserType) => {
         }
     );
 };
+
+export const isAuth = async (req: any, res: any, next: any) => {
+    const { authorization } = req.headers;
+    if (authorization) {
+        // format : Bearer XXX, so we start at 7th character to remove 'Bearer'
+        const token = authorization.slice(7, authorization.length);
+        jwt.verify(token, JWT_SECRET, (err: any, decode: any) => {
+            if (err) {
+                res.status(401).send({ message: 'Token is not Valid' });
+            } else {
+                req.user = decode;
+                next();
+            }
+        });
+    } else {
+        res.status(401).send({ message: 'Token is not Supplied' });
+    }
+};

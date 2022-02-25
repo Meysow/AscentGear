@@ -1,16 +1,18 @@
 import styles from './PlaceOrderPage.module.scss';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ActionType, Store } from '../../../utils/Store';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ProductType } from '../../../../typings';
-import axios from 'axios';
 import Button from '../../elements/Button';
-
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Cards from '../../modules/Cards';
 import CheckoutWizard from '../../elements/CheckoutWizard';
+import { toast } from 'react-toastify';
+import { getError } from '../../../utils/error';
+import axios from 'axios';
+import { userInfo } from 'os';
+import Cookies from 'js-cookie';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
@@ -19,6 +21,7 @@ const PlaceOrderPage = () => {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const {
+        userInfo,
         cart: { cartItems, shippingAddress, paymentMethod },
     } = state;
 
@@ -38,8 +41,46 @@ const PlaceOrderPage = () => {
         if (!paymentMethod) {
             router.push('/payment');
         }
+        if (cartItems.length === 0) {
+            router.push('/cart');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const [loading, setLoading] = useState(false);
+
+    const placeOrderHandler = async () => {
+        toast.dismiss();
+        try {
+            setLoading(true);
+            const { data } = await axios.post(
+                '/api/orders',
+                {
+                    orderItems: cartItems,
+                    shippingAddress,
+                    paymentMethod,
+                    itemsPrice,
+                    shippingPrice,
+                    taxPrice,
+                    totalPrice,
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${userInfo.token}`,
+                    },
+                }
+            );
+            dispatch({ type: ActionType.CART_CLEAR });
+            Cookies.remove('cartItems');
+            setLoading(false);
+            router.push(`/order/${data._id}`);
+        } catch (err) {
+            setLoading(false);
+            toast.error(getError(err), {
+                theme: 'colored',
+            });
+        }
+    };
 
     return (
         <DynamicDefaultLayout title='Place Order'>
@@ -150,12 +191,11 @@ const PlaceOrderPage = () => {
                             <Button
                                 fullWidth
                                 color={'default'}
-                                onClickHandler={() =>
-                                    console.log('place order')
-                                }
+                                onClickHandler={placeOrderHandler}
                             >
                                 PLACE ORDER
                             </Button>
+                            {loading && <p>Loading...</p>}
                         </div>
                     </div>
                 </div>
