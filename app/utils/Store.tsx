@@ -88,10 +88,16 @@ function reducer(state: InitialStateType, action: IAction) {
                 ...state,
                 cart: { ...state.cart, paymentMethod: action.payload },
             };
+        case ActionType.CART_CLEAR:
+            return { ...state, cart: { ...state.cart, cartItems: [] } };
         case ActionType.USER_LOGIN:
             return { ...state, userInfo: action.payload };
         case ActionType.USER_LOGOUT:
-            return { ...state, userInfo: null, cart: { cartItems: [] } };
+            return {
+                ...state,
+                userInfo: null,
+                cart: { cartItems: [], shippingAddress: {}, paymentMethod: '' },
+            };
         default:
             return state;
     }

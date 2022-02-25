@@ -1,18 +1,17 @@
 import styles from './PlaceOrderPage.module.scss';
 import { useContext, useEffect, useState } from 'react';
-import { ActionType, Store } from '../../../utils/Store';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ProductType } from '../../../../typings';
-import Button from '../../elements/Button';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import CheckoutWizard from '../../elements/CheckoutWizard';
-import { toast } from 'react-toastify';
-import { getError } from '../../../utils/error';
 import axios from 'axios';
-import { userInfo } from 'os';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+import Button from '../../elements/Button';
+import CheckoutWizard from '../../elements/CheckoutWizard';
+import { ActionType, Store } from '../../../utils/Store';
+import { ProductType } from '../../../../typings';
+import { getError } from '../../../utils/error';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );

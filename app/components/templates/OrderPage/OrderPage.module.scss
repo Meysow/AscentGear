@@ -1,0 +1,163 @@
+@import '../../../styles/app.scss';
+
+.wrapper {
+    margin-bottom: max(3rem, min(calc(2rem + 2vw), 5rem));
+}
+
+.orderId {
+    color: $color-5;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    @include breakpoint('md') {
+        flex-wrap: nowrap;
+    }
+
+    .leftSection {
+        flex: 1 1 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        @include breakpoint('md') {
+            flex: 1 1 70%;
+        }
+
+        .flexContainer {
+            display: flex;
+            line-height: 3.2rem;
+
+            .flexContainerLeft {
+                flex: 1 1 40%;
+            }
+            .flexContainerRight {
+                flex: 1 1 40%;
+            }
+        }
+    }
+
+    h3 {
+        font-size: clamp(1.4rem, 1rem + 1vw, 2.8rem);
+        margin-bottom: 2.4rem;
+    }
+
+    .rows {
+        @include card;
+        padding: 1.8rem 2.4rem;
+
+        .hrTop {
+            border: 0 none;
+            height: 2px;
+            background-color: rgba($color-dark, 0.618);
+        }
+        .hrBottom {
+            border: 0 none;
+            height: 2px;
+            background-color: rgba($color-dark, 0.318);
+        }
+    }
+
+    .left {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+
+        & > * {
+            text-align: center;
+        }
+
+        .Image {
+            flex: 1 1 15%;
+
+            img {
+                border-radius: 10%;
+                -webkit-border-radius: 10%;
+                -moz-border-radius: 10%;
+                -ms-border-radius: 10%;
+                -o-border-radius: 10%;
+            }
+        }
+        .Name {
+            flex: 2 1 30%;
+
+            p {
+                color: $color-5;
+                transition: all 0.3s;
+                -webkit-transition: all 0.3s;
+                -moz-transition: all 0.3s;
+                -ms-transition: all 0.3s;
+                -o-transition: all 0.3s;
+                &:hover {
+                    color: $color-4;
+                }
+            }
+        }
+        .Quantity {
+            flex: 1 1 20%;
+        }
+        .Price {
+            flex: 1 1 15%;
+        }
+        .Action {
+            flex: 1 1 15%;
+            display: flex;
+            justify-content: center;
+            div {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+    }
+
+    .right {
+        margin-top: 2.5rem;
+        flex: 1 1 100%;
+
+        @include breakpoint('md') {
+            flex: 1 1 25%;
+            margin-top: 0;
+        }
+        .card {
+            @include card;
+            padding: 1.8rem;
+            max-width: 23rem;
+            margin-left: max(1rem, min(calc(0.8rem + 1vw), 5rem));
+
+            & > p {
+                margin-bottom: 1.618rem;
+            }
+        }
+
+        .flexContainer {
+            display: flex;
+            line-height: 3.2rem;
+
+            .flexContainerLeft {
+                flex: 1 1 40%;
+                &:last-child {
+                    margin-bottom: 1.4rem;
+                }
+            }
+            .flexContainerRight {
+                // flex: 1 1 40%;
+                text-align: end;
+                &:last-child {
+                    margin-bottom: 1.4rem;
+                }
+            }
+        }
+    }
+}
+
+.error {
+    color: $color-danger;
+}
+
+.status {
+    margin-top: 2rem;
+}
