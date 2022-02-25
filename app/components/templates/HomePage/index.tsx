@@ -1,5 +1,5 @@
 import styles from './HomePage.module.scss';
-import Cards from '../../elements/Cards';
+import Cards from '../../modules/Cards';
 import { ProductArray } from '../../../../typings';
 
 const HomePage = ({ products }: ProductArray) => (

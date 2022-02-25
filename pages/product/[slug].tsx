@@ -16,11 +16,7 @@ const ProductScreen = ({ product, errors }: Props) => {
     if (!product) {
         return <div>Product Not Found !</div>;
     }
-    return (
-        <>
-            <ProductPage product={product} />
-        </>
-    );
+    return <ProductPage product={product} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {

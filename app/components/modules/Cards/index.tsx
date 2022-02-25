@@ -2,11 +2,12 @@ import styles from './Cards.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ProductArray, ProductType } from '../../../../typings';
-import Button from '../Button';
+import Button from '../../elements/Button';
 import axios from 'axios';
 import { useContext } from 'react';
 import { ActionType, Store } from '../../../utils/Store';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 export default function Cards({ products }: ProductArray) {
     const { dispatch, state } = useContext(Store);
@@ -20,7 +21,10 @@ export default function Cards({ products }: ProductArray) {
 
         const { data } = await axios.get(`/api/products/${product._id}`);
         if (data.data.countInStock < quantity) {
-            window.alert('Sorry, Product is out of stock');
+            // window.alert('Sorry, Product is out of stock');
+            toast.error(`Sorry, Product is out of stock`, {
+                theme: 'colored',
+            });
             return;
         }
 

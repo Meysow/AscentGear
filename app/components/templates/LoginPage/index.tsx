@@ -30,6 +30,7 @@ const LoginPage = () => {
         if (userInfo) {
             router.push('/');
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const submitHandler: SubmitHandler<FormValues> = async (
@@ -113,7 +114,9 @@ const LoginPage = () => {
                     )}
                 </div>
                 <div className={styles.btnContainer}>
-                    <Button onClickHandler={() => submitHandler}>Login</Button>
+                    <Button shadow onClickHandler={() => submitHandler}>
+                        Login
+                    </Button>
                 </div>
                 <p>
                     Don&apos;t have an Account ?{'  '}

@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import styles from './PaymentPage.module.scss';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { ActionType, Store } from '../../../utils/Store';
 import CheckoutWizard from '../../elements/CheckoutWizard';
 import DefaultLayout from '../../layouts/DefaultLayout';

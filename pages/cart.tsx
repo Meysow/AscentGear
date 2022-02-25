@@ -5,11 +5,7 @@ const DynamicCartPage = dynamic(
 );
 
 const cartScreen = () => {
-    return (
-        <>
-            <DynamicCartPage />
-        </>
-    );
+    return <DynamicCartPage />;
 };
 
 export default cartScreen;

@@ -5,11 +5,7 @@ const DynamicShipping = dynamic(
 );
 
 const Shipping = () => {
-    return (
-        <>
-            <DynamicShipping />
-        </>
-    );
+    return <DynamicShipping />;
 };
 
 export default Shipping;

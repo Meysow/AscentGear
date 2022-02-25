@@ -9,6 +9,7 @@ import Button from '../../elements/Button';
 
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
@@ -25,7 +26,9 @@ const CartPage = () => {
 
         if (data.data.countInStock < quantity) {
             // window.alert('Sorry, Product is out of stock');
-            console.log('out of stock');
+            toast.error(`Sorry, Product is out of stock`, {
+                theme: 'colored',
+            });
             return;
         }
 

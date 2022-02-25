@@ -4,9 +4,5 @@ const DynamicLoginPage = dynamic(
 );
 
 export default function Loggin() {
-    return (
-        <>
-            <DynamicLoginPage />
-        </>
-    );
+    return <DynamicLoginPage />;
 }
