@@ -25,7 +25,10 @@ const PlaceOrderPage = () => {
     const round2 = (num: number) =>
         Math.round(num * 100 + Number.EPSILON) / 100;
     const itemsPrice = round2(
-        cartItems.reduce((a, c) => a + c.price * c.quantity, 0)
+        cartItems.reduce(
+            (a: number, c: ProductType) => a + c.price * c.quantity,
+            0
+        )
     );
     const shippingPrice = itemsPrice >= 200 ? 0 : 15;
     const taxPrice = round2(itemsPrice * 0.15);
