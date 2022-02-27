@@ -1,8 +1,8 @@
 import axios from 'axios';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useReducer } from 'react';
+import { OrderTypesTwo } from '../../../../typings';
 import { getError } from '../../../utils/error';
 import { Store } from '../../../utils/Store';
 import Button from '../../elements/Button';
@@ -16,6 +16,18 @@ const formatDate = (date: string) => {
     return isoDate.toLocaleString('en-GB');
 };
 
+interface Istate {
+    loading: boolean;
+    orders: OrderTypesTwo[];
+    error: string;
+}
+
+const initialState: Istate = {
+    loading: true,
+    orders: [],
+    error: '',
+};
+
 enum FetchActionType {
     FETCH_REQUEST,
     FETCH_SUCCESS,
@@ -26,7 +38,12 @@ enum FetchActionType {
     PAY_RESET,
 }
 
-function reducer(state: any, action: any) {
+interface IFetchAction {
+    type: FetchActionType;
+    payload?: any;
+}
+
+function reducer(state: Istate, action: IFetchAction): Istate {
     switch (action.type) {
         case FetchActionType.FETCH_REQUEST:
             return { ...state, loading: true, error: '' };
@@ -44,7 +61,7 @@ function reducer(state: any, action: any) {
                 error: action.payload,
             };
         default:
-            state;
+            return state;
     }
 }
 
@@ -53,11 +70,10 @@ const OrderHistoryPage = () => {
     const { state } = useContext(Store);
     const { userInfo } = state;
 
-    const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
-        loading: true,
-        orders: [],
-        error: '',
-    });
+    const [{ loading, orders, error }, dispatch] = useReducer(
+        reducer,
+        initialState
+    );
 
     useEffect(() => {
         if (!userInfo) {
@@ -126,7 +142,7 @@ const OrderHistoryPage = () => {
                             <p className={styles.error}>{error}</p>
                         ) : (
                             <>
-                                {orders.map((order: any) => (
+                                {orders.map((order: OrderTypesTwo) => (
                                     <div className={styles.row} key={order._id}>
                                         <p className={styles.Id}>
                                             {order._id.substring(20, 24)}

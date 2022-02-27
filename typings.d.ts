@@ -35,7 +35,7 @@ export interface UserArray {
     users: UserType[];
 }
 export interface OrderTypes {
-    shippingAddress: ShippingAddress;
+    shippingAddress: ShippingAddress<T>;
     _id: string;
     user: string;
     orderItems: OrderItem[];
@@ -65,4 +65,36 @@ export interface ShippingAddress {
     city: string;
     postalCode: string;
     country: string;
+}
+
+export interface Cart {
+    cartItems: ProductType[];
+    shippingAddress: ShippingAddress<T>;
+    paymentMethod: string;
+}
+
+export interface UserInfo {
+    name: string;
+    email: string;
+    password: any;
+    token: any;
+}
+
+export interface OrderTypesTwo {
+    shippingAddress: ShippingAddress<T>;
+    _id: string;
+    user: string;
+    orderItems: OrderItem[];
+    paymentMethod: string;
+    itemsPrice: number;
+    shippingPrice: number;
+    taxPrice: number;
+    totalPrice: number;
+    isPaid: boolean;
+    isDelivered: boolean;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    paidAt: string;
+    deliveredAt: string;
 }

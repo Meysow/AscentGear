@@ -5,7 +5,11 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { usePayPalScriptReducer, PayPalButtons } from '@paypal/react-paypal-js';
+import {
+    usePayPalScriptReducer,
+    PayPalButtons,
+    SCRIPT_LOADING_STATE,
+} from '@paypal/react-paypal-js';
 import CheckoutWizard from '../../elements/CheckoutWizard';
 import { Store } from '../../../utils/Store';
 import { ProductType } from '../../../../typings';
@@ -19,6 +23,24 @@ interface Props {
     orderId: string;
 }
 
+interface IState {
+    loading: boolean;
+    order: any;
+    error: string;
+    loadingPay: boolean;
+    successPay: boolean;
+    errorPay: string;
+}
+
+const initialState: IState = {
+    loading: true,
+    order: {},
+    error: '',
+    loadingPay: true,
+    successPay: false,
+    errorPay: '',
+};
+
 enum FetchActionType {
     FETCH_REQUEST,
     FETCH_SUCCESS,
@@ -28,19 +50,12 @@ enum FetchActionType {
     PAY_FAIL,
     PAY_RESET,
 }
+interface IAction {
+    type: FetchActionType | string;
+    payload?: any;
+}
 
-// interface IAction {
-//     type: FetchActionType;
-//     payload?: unknown;
-// }
-
-// interface IState {
-//     loading: boolean;
-//     order?: any;
-//     error?: string;
-// }
-
-function reducer(state: any, action: any) {
+function reducer(state: IState, action: IAction): IState {
     switch (action.type) {
         case FetchActionType.FETCH_REQUEST:
             return { ...state, loading: true, error: '' };
@@ -79,7 +94,7 @@ function reducer(state: any, action: any) {
                 errorPay: '',
             };
         default:
-            state;
+            return state;
     }
 }
 
@@ -91,11 +106,7 @@ const OrderPage = ({ orderId }: Props) => {
 
     const [{ loading, error, order, successPay }, dispatch] = useReducer(
         reducer,
-        {
-            loading: true,
-            order: {},
-            error: '',
-        }
+        initialState
     );
 
     const {
@@ -150,7 +161,10 @@ const OrderPage = ({ orderId }: Props) => {
                         currency: 'USD',
                     },
                 });
-                paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+                paypalDispatch({
+                    type: 'setLoadingStatus',
+                    value: SCRIPT_LOADING_STATE.PENDING,
+                });
             };
             loadPaypalScript();
         }

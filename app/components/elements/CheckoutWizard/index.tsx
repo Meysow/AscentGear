@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import styles from './CheckoutWizard.module.scss';
 
 interface Props {
@@ -5,6 +6,7 @@ interface Props {
 }
 
 const CheckoutWizard = ({ activeStep = 0 }: Props) => {
+    const router = useRouter();
     const steps: string[] = [
         'Login',
         'Shipping Address',
@@ -17,6 +19,17 @@ const CheckoutWizard = ({ activeStep = 0 }: Props) => {
         }
         return index < activeStep ? styles.active : '';
     };
+    const clickHandler = (index: number) => {
+        if (index === 0) {
+            router.push('/login');
+        }
+        if (index === 1) {
+            router.push('/shipping');
+        }
+        if (index === 2) {
+            router.push('/payment');
+        }
+    };
 
     return (
         <ol className={styles.stepper}>
@@ -25,9 +38,18 @@ const CheckoutWizard = ({ activeStep = 0 }: Props) => {
                     className={`${styles.stepperItem} ${variant(i)}`}
                     key={step}
                 >
-                    <span className={styles.stepperNumber}>
-                        {i < activeStep ? '✔' : i + 1}
-                    </span>
+                    {i < activeStep ? (
+                        <span
+                            className={styles.stepperNumber}
+                            onClick={() => clickHandler(i)}
+                        >
+                            {i < activeStep ? '✔' : i + 1}
+                        </span>
+                    ) : (
+                        <span className={styles.stepperNumber}>
+                            {i < activeStep ? '✔' : i + 1}
+                        </span>
+                    )}
                     <p className={styles.stepperTitle}>{step}</p>
                 </li>
             ))}

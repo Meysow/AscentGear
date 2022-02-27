@@ -1,11 +1,11 @@
 import { createContext, useReducer } from 'react';
 import Cookies from 'js-cookie';
-import { ProductType } from '../../typings';
+import { Cart, ProductType, UserInfo } from '../../typings';
 
 interface InitialStateType {
     darkMode: boolean;
-    cart: any;
-    userInfo: any;
+    cart: Cart;
+    userInfo: UserInfo;
 }
 
 export enum ActionType {
@@ -22,10 +22,10 @@ export enum ActionType {
 
 interface IAction {
     type: ActionType;
-    payload?: unknown;
+    payload?: any;
 }
 
-const initialState = {
+const initialState: InitialStateType = {
     darkMode: Cookies.get('darkMode') === 'ON' ? true : false,
     cart: {
         cartItems: Cookies.get('cartItems')
@@ -58,7 +58,7 @@ function reducer(state: InitialStateType, action: IAction) {
         case ActionType.DARK_MODE_OFF:
             return { ...state, darkMode: false };
         case ActionType.CART_ADD_ITEM: {
-            const newItem: any = action.payload;
+            const newItem: ProductType = action.payload;
             const existItem = state.cart.cartItems.find(
                 (item: ProductType) => item._id === newItem._id
             );
@@ -71,7 +71,7 @@ function reducer(state: InitialStateType, action: IAction) {
             return { ...state, cart: { ...state.cart, cartItems } };
         }
         case ActionType.CART_REMOVE_ITEM: {
-            const targetItem: any = action.payload;
+            const targetItem: ProductType = action.payload;
             const cartItems = state.cart.cartItems.filter(
                 (item: ProductType) => item._id !== targetItem._id
             );

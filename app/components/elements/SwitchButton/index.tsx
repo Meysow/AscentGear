@@ -1,6 +1,11 @@
 import styles from './SwitchButton.module.scss';
 
-const SwitchButton = ({ darkModeHandler, checked }: any) => {
+interface Props {
+    darkModeHandler: () => void;
+    checked: boolean;
+}
+
+const SwitchButton = ({ darkModeHandler, checked }: Props) => {
     return (
         <label className={styles.switch}>
             <input

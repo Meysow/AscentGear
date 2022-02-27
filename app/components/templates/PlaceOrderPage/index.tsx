@@ -24,6 +24,8 @@ const PlaceOrderPage = () => {
         cart: { cartItems, shippingAddress, paymentMethod },
     } = state;
 
+    console.log(shippingAddress);
+
     const round2 = (num: number) =>
         Math.round(num * 100 + Number.EPSILON) / 100;
     const itemsPrice = round2(
