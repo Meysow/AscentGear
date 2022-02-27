@@ -124,9 +124,13 @@
         }
         .card {
             @include card;
+            max-width: 28rem;
             padding: 1.8rem;
-            max-width: 23rem;
             margin-left: max(1rem, min(calc(0.8rem + 1vw), 5rem));
+
+            @include breakpoint('md') {
+                max-width: 100%;
+            }
 
             & > p {
                 margin-bottom: 1.618rem;

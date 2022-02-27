@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^7.6.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/js-cookie": "^3.0.1",
     "@types/jsonwebtoken": "^8.5.8",

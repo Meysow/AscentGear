@@ -1,0 +1,81 @@
+@import '../../../styles/app.scss';
+
+$fs-history: clamp(0.8rem, 0.6rem + 1vw, 1.6rem);
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem;
+
+    @include breakpoint('md') {
+        flex-wrap: nowrap;
+    }
+
+    .containerLeft {
+        flex: 1 1 25%;
+        @include card;
+        padding: 1.6rem;
+        align-self: flex-start;
+
+        .containerLeftButton {
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+        }
+    }
+
+    .containerRight {
+        h1 {
+            margin-bottom: 2.4rem;
+        }
+        flex: 1 1 75%;
+        @include card;
+        padding: 1.6rem;
+
+        .row {
+            display: flex;
+            margin-bottom: 1.6rem;
+            align-items: center;
+            gap: 0.6rem;
+            .Id {
+                font-size: $fs-history;
+                flex: 0.5;
+            }
+
+            .Date {
+                font-size: $fs-history;
+                flex: 1.2;
+            }
+
+            .Delivered {
+                font-size: $fs-history;
+                flex: 1;
+                text-align: center;
+            }
+
+            .Total {
+                font-size: $fs-history;
+                flex: 0.5;
+                text-align: center;
+            }
+
+            .Paid {
+                font-size: $fs-history;
+                flex: 0.8;
+                text-align: center;
+            }
+
+            .Action {
+                font-size: $fs-history;
+                flex: 0.6;
+                text-align: center;
+                div {
+                    button {
+                        padding-inline: clamp(0.4rem, 0.2rem + 1vw, 1rem);
+                        font-size: $fs-history;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -16,6 +16,9 @@
             background-color: $color-5;
         }
     }
+    &.selected {
+        background-color: $color-5;
+    }
     outline: none;
     border: 0 none;
     border-radius: 1rem;

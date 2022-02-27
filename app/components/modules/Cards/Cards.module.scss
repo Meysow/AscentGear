@@ -39,8 +39,11 @@
 
             .card__content--body {
                 display: flex;
-                & > * {
-                    flex: 1 0 50%;
+                & > p {
+                    flex: 1 0 40%;
+                }
+                & > div {
+                    flex: 1 0 60%;
                 }
             }
         }

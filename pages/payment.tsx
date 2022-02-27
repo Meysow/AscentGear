@@ -4,11 +4,7 @@ const DynamicPayment = dynamic(
 );
 
 const Payment = () => {
-    return (
-        <>
-            <DynamicPayment />
-        </>
-    );
+    return <DynamicPayment />;
 };
 
 export default Payment;

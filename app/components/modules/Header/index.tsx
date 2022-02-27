@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 import { Store, ActionType } from '../../../utils/Store';
 import SwitchButton from '../../elements/SwitchButton';
 import styles from './Header.module.scss';
@@ -22,13 +22,21 @@ const Header = () => {
         Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
     };
 
-    const logoutHandler = () => {
+    const clickHandler = (e: FormEvent, redirect: string) => {
         setActive(false);
+        if (redirect) {
+            router.push(redirect);
+        }
+    };
+
+    const logoutHandler = () => {
         dispatch({ type: ActionType.USER_LOGOUT });
         Cookies.remove('userInfo');
         Cookies.remove('cartItems');
         router.push('/');
     };
+
+    const isActive = active ? styles.active : styles.inactive;
 
     return (
         <div className={styles.headerWrapper}>
@@ -59,15 +67,21 @@ const Header = () => {
                                 {userInfo.name}
                             </Button>
                             <div
-                                className={`${styles.dropdownContent} ${
-                                    styles[`${active ? 'active' : 'inactive'}`]
-                                }`}
+                                className={`${styles.dropdownContent} ${isActive}`}
                             >
-                                <Button onClickHandler={() => setActive(false)}>
+                                <Button
+                                    onClickHandler={(e: FormEvent) =>
+                                        clickHandler(e, '/profile')
+                                    }
+                                >
                                     Profile
                                 </Button>
-                                <Button onClickHandler={() => setActive(false)}>
-                                    My account
+                                <Button
+                                    onClickHandler={(e: FormEvent) =>
+                                        clickHandler(e, '/order-history')
+                                    }
+                                >
+                                    Order History
                                 </Button>
                                 <Button onClickHandler={logoutHandler}>
                                     Logout

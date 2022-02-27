@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import { getError } from '../../../utils/error';
 
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
@@ -48,14 +49,9 @@ const LoginPage = () => {
             Cookies.set('userInfo', JSON.stringify(data));
             router.push(redirect || '/');
         } catch (err: any) {
-            toast.error(
-                `${
-                    err.response.data ? err.response.data.message : err.message
-                }`,
-                {
-                    theme: 'colored',
-                }
-            );
+            toast.error(`${getError(err)}`, {
+                theme: 'colored',
+            });
         }
     };
 
