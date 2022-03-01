@@ -12,6 +12,7 @@ import CheckoutWizard from '../../elements/CheckoutWizard';
 import { ActionType, Store } from '../../../utils/Store';
 import { ProductType } from '../../../../typings';
 import { getError } from '../../../utils/error';
+import LoadingSpinner from '../../elements/LoadingSpinner';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
@@ -196,7 +197,7 @@ const PlaceOrderPage = () => {
                             >
                                 PLACE ORDER
                             </Button>
-                            {loading && <p>Loading...</p>}
+                            {loading && <LoadingSpinner />}
                         </div>
                     </div>
                 </div>

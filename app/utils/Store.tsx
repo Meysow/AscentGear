@@ -1,11 +1,11 @@
 import { createContext, useReducer } from 'react';
 import Cookies from 'js-cookie';
-import { Cart, ProductType, UserInfo } from '../../typings';
+import { Cart, ProductType, UserType } from '../../typings';
 
 interface InitialStateType {
     darkMode: boolean;
     cart: Cart;
-    userInfo: UserInfo;
+    userInfo: UserType;
 }
 
 export enum ActionType {

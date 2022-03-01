@@ -83,6 +83,15 @@ const Header = () => {
                                 >
                                     Order History
                                 </Button>
+                                {userInfo.isAdmin && (
+                                    <Button
+                                        onClickHandler={(e: FormEvent) =>
+                                            clickHandler(e, '/admin/dashboard')
+                                        }
+                                    >
+                                        Admin Dashboard
+                                    </Button>
+                                )}
                                 <Button onClickHandler={logoutHandler}>
                                     Logout
                                 </Button>

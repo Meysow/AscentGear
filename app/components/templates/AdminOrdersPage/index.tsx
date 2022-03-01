@@ -1,13 +1,14 @@
+import styles from './AdminOrdersPage.module.scss';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useContext, useEffect, useReducer } from 'react';
-import { OrderTypesTwo } from '../../../../typings';
-import { getError } from '../../../utils/error';
+import React, { useEffect, useContext, useReducer } from 'react';
 import { Store } from '../../../utils/Store';
+import { getError } from '../../../utils/error';
 import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
-import styles from './OrderHistory.module.scss';
+import { OrderTypesTwo } from '../../../../typings';
+
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
@@ -17,61 +18,42 @@ const formatDate = (date: string) => {
     return isoDate.toLocaleString('en-GB');
 };
 
-interface Istate {
+interface IState {
     loading: boolean;
-    orders: OrderTypesTwo[];
+    orders: any;
     error: string;
 }
 
-const initialState: Istate = {
+const initialState: IState = {
     loading: true,
     orders: [],
     error: '',
 };
 
-enum FetchActionType {
-    FETCH_REQUEST,
-    FETCH_SUCCESS,
-    FETCH_FAIL,
-    PAY_REQUEST,
-    PAY_SUCCESS,
-    PAY_FAIL,
-    PAY_RESET,
-}
-
-interface IFetchAction {
-    type: FetchActionType;
-    payload?: any;
-}
-
-function reducer(state: Istate, action: IFetchAction): Istate {
+function reducer(state: IState, action: any) {
     switch (action.type) {
-        case FetchActionType.FETCH_REQUEST:
+        case 'FETCH_REQUEST':
             return { ...state, loading: true, error: '' };
-        case FetchActionType.FETCH_SUCCESS:
+        case 'FETCH_SUCCESS':
             return {
                 ...state,
                 loading: false,
                 orders: action.payload,
                 error: '',
             };
-        case FetchActionType.FETCH_FAIL:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload,
-            };
+        case 'FETCH_FAIL':
+            return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }
 }
 
-const OrderHistoryPage = () => {
-    const router = useRouter();
+const AdminOrdersPage = () => {
     const { state } = useContext(Store);
+    const router = useRouter();
     const { userInfo } = state;
 
-    const [{ loading, orders, error }, dispatch] = useReducer(
+    const [{ loading, error, orders }, dispatch] = useReducer(
         reducer,
         initialState
     );
@@ -80,63 +62,67 @@ const OrderHistoryPage = () => {
         if (!userInfo) {
             router.push('/login');
         }
-        const fetchOrders = async () => {
+        const fetchData = async () => {
             try {
-                dispatch({ type: FetchActionType.FETCH_REQUEST });
-                const { data } = await axios.get(`/api/orders/history`, {
-                    headers: {
-                        authorization: `Bearer ${userInfo.token}`,
-                    },
+                dispatch({ type: 'FETCH_REQUEST' });
+                const { data } = await axios.get(`/api/admin/orders`, {
+                    headers: { authorization: `Bearer ${userInfo.token}` },
                 });
-                dispatch({
-                    type: FetchActionType.FETCH_SUCCESS,
-                    payload: data,
-                });
+                dispatch({ type: 'FETCH_SUCCESS', payload: data });
             } catch (err) {
-                dispatch({
-                    type: FetchActionType.FETCH_FAIL,
-                    payload: getError(err),
-                });
+                dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
             }
         };
-        fetchOrders();
+        fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     return (
-        <DynamicDefaultLayout title={`Order History`}>
+        <DynamicDefaultLayout title='Admin Orders'>
             <>
                 <div className={styles.container}>
                     <div className={styles.containerLeft}>
                         <div className={styles.containerLeftButton}>
                             <Button
                                 color='tertiary'
-                                onClickHandler={() => router.push('/profile')}
+                                onClickHandler={() =>
+                                    router.push('/admin/dashboard')
+                                }
                             >
-                                User Profile
+                                DashBoard
+                            </Button>
+
+                            <Button
+                                selected
+                                color='tertiary'
+                                onClickHandler={() =>
+                                    router.push('/admin/orders')
+                                }
+                            >
+                                Orders
                             </Button>
 
                             <Button
                                 color='tertiary'
                                 onClickHandler={() =>
-                                    router.push('/order-history')
+                                    router.push('/admin/products')
                                 }
-                                selected
                             >
-                                Order History
+                                Products
                             </Button>
                         </div>
                     </div>
                     <div className={styles.containerRight}>
-                        <h1>Order History</h1>
+                        <h1>Orders</h1>
                         <div className={styles.row}>
-                            <div className={styles.Id}>Id</div>
-                            <div className={styles.Date}>Date</div>
-                            <div className={styles.Total}>Total</div>
-                            <div className={styles.Paid}>Paid</div>
-                            <div className={styles.Delivered}>Delivered</div>
-                            <div className={styles.Action}>Action</div>
+                            <div className={styles.Id}>ID</div>
+                            <div className={styles.User}>USER</div>
+                            <div className={styles.Date}>DATE</div>
+                            <div className={styles.Total}>TOTAL</div>
+                            <div className={styles.Paid}>PAID</div>
+                            <div className={styles.Delivered}>DELIVERED</div>
+                            <div className={styles.Action}>ACTION</div>
                         </div>
-                        <hr />
                         {loading ? (
                             <LoadingSpinner />
                         ) : error ? (
@@ -147,6 +133,11 @@ const OrderHistoryPage = () => {
                                     <div className={styles.row} key={order._id}>
                                         <p className={styles.Id}>
                                             {order._id.substring(20, 24)}
+                                        </p>
+                                        <p className={styles.User}>
+                                            {order.user
+                                                ? order.user.name
+                                                : 'DELETED USER'}
                                         </p>
                                         <p className={styles.Date}>
                                             {formatDate(order.createdAt)}
@@ -187,4 +178,4 @@ const OrderHistoryPage = () => {
     );
 };
 
-export default OrderHistoryPage;
+export default AdminOrdersPage;

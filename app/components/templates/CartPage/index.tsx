@@ -18,6 +18,7 @@ const CartPage = () => {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const {
+        darkMode,
         cart: { cartItems },
     } = state;
 
@@ -48,6 +49,8 @@ const CartPage = () => {
     const checkOutHandler = () => {
         router.push('/shipping');
     };
+
+    const isDarkMode = darkMode ? styles.darkMode : '';
 
     return (
         <DynamicDefaultLayout title='Shopping Cart'>
@@ -96,7 +99,9 @@ const CartPage = () => {
                                                 href={`/product/${item.slug}`}
                                             >
                                                 <a>
-                                                    <p>{item.name}</p>
+                                                    <p className={isDarkMode}>
+                                                        {item.name}
+                                                    </p>
                                                 </a>
                                             </Link>
                                         </div>
@@ -138,7 +143,7 @@ const CartPage = () => {
                                                 color={'tertiary'}
                                                 fullWidth={false}
                                             >
-                                                x
+                                                X
                                             </Button>
                                         </div>
                                     </div>
@@ -147,7 +152,7 @@ const CartPage = () => {
                             ))}
                         </div>
                         <div className={styles.right}>
-                            <div className={styles.card}>
+                            <div className={`${styles.card} ${isDarkMode}`}>
                                 <p>
                                     Subtotal (
                                     {cartItems.reduce(

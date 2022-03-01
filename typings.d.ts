@@ -29,6 +29,7 @@ export interface UserType {
     __v: number;
     createdAt: string;
     updatedAt: string;
+    token: any;
 }
 
 export interface UserArray {
@@ -83,7 +84,7 @@ export interface UserInfo {
 export interface OrderTypesTwo {
     shippingAddress: ShippingAddress<T>;
     _id: string;
-    user: string;
+    user: UserType;
     orderItems: OrderItem[];
     paymentMethod: string;
     itemsPrice: number;

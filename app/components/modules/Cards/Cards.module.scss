@@ -47,5 +47,9 @@
                 }
             }
         }
+
+        &.darkMode {
+            background-color: rgba($color-5, 0.318);
+        }
     }
 }

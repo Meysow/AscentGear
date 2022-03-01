@@ -15,6 +15,8 @@ import { Store } from '../../../utils/Store';
 import { ProductType } from '../../../../typings';
 import { getError } from '../../../utils/error';
 import { toast } from 'react-toastify';
+import LoadingSpinner from '../../elements/LoadingSpinner';
+import Button from '../../elements/Button';
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
 );
@@ -30,6 +32,9 @@ interface IState {
     loadingPay: boolean;
     successPay: boolean;
     errorPay: string;
+    loadingDeliver: boolean;
+    successDeliver: boolean;
+    errorDeliver: string;
 }
 
 const initialState: IState = {
@@ -39,6 +44,9 @@ const initialState: IState = {
     loadingPay: true,
     successPay: false,
     errorPay: '',
+    loadingDeliver: false,
+    successDeliver: false,
+    errorDeliver: '',
 };
 
 enum FetchActionType {
@@ -49,6 +57,10 @@ enum FetchActionType {
     PAY_SUCCESS,
     PAY_FAIL,
     PAY_RESET,
+    DELIVER_REQUEST,
+    DELIVER_SUCCESS,
+    DELIVER_FAIL,
+    DELIVER_RESET,
 }
 interface IAction {
     type: FetchActionType | string;
@@ -93,6 +105,23 @@ function reducer(state: IState, action: IAction): IState {
                 successPay: false,
                 errorPay: '',
             };
+        case FetchActionType.DELIVER_REQUEST:
+            return { ...state, loadingDeliver: true };
+        case FetchActionType.DELIVER_SUCCESS:
+            return { ...state, loadingDeliver: false, successDeliver: true };
+        case FetchActionType.DELIVER_FAIL:
+            return {
+                ...state,
+                loadingDeliver: false,
+                errorDeliver: action.payload,
+            };
+        case FetchActionType.DELIVER_RESET:
+            return {
+                ...state,
+                loadingDeliver: false,
+                successDeliver: false,
+                errorDeliver: '',
+            };
         default:
             return state;
     }
@@ -104,10 +133,10 @@ const OrderPage = ({ orderId }: Props) => {
     const { state } = useContext(Store);
     const { userInfo } = state;
 
-    const [{ loading, error, order, successPay }, dispatch] = useReducer(
-        reducer,
-        initialState
-    );
+    const [
+        { loading, error, order, successPay, loadingDeliver, successDeliver },
+        dispatch,
+    ] = useReducer(reducer, initialState);
 
     const {
         shippingAddress,
@@ -144,10 +173,18 @@ const OrderPage = ({ orderId }: Props) => {
                 });
             }
         };
-        if (!order._id || successPay || (order._id && order._id !== orderId)) {
+        if (
+            !order._id ||
+            successPay ||
+            successDeliver ||
+            (order._id && order._id !== orderId)
+        ) {
             fetchOrder();
             if (successPay) {
                 dispatch({ type: FetchActionType.PAY_RESET });
+            }
+            if (successDeliver) {
+                dispatch({ type: 'DELIVER_RESET' });
             }
         } else {
             const loadPaypalScript = async () => {
@@ -169,7 +206,7 @@ const OrderPage = ({ orderId }: Props) => {
             loadPaypalScript();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [order, successPay]);
+    }, [order, successPay, successDeliver]);
 
     function createOrder(data: any, actions: any) {
         return actions.order
@@ -213,6 +250,28 @@ const OrderPage = ({ orderId }: Props) => {
         });
     }
 
+    async function deliverOrderHandler() {
+        try {
+            dispatch({ type: 'DELIVER_REQUEST' });
+            const { data } = await axios.put(
+                `/api/orders/${order._id}/deliver`,
+                {},
+                {
+                    headers: { authorization: `Bearer ${userInfo.token}` },
+                }
+            );
+            dispatch({ type: 'DELIVER_SUCCESS', payload: data });
+            toast.success('Order is delivered', {
+                theme: 'colored',
+            });
+        } catch (err) {
+            dispatch({ type: 'DELIVER_FAIL', payload: getError(err) });
+            toast.error(getError(err), {
+                theme: 'colored',
+            });
+        }
+    }
+
     return (
         <DynamicDefaultLayout title={`Order ${orderId}`}>
             <>
@@ -226,7 +285,7 @@ const OrderPage = ({ orderId }: Props) => {
                 </h1>
 
                 {loading ? (
-                    <span>Loading...</span>
+                    <LoadingSpinner />
                 ) : error ? (
                     <p className={styles.error}>{error}</p>
                 ) : (
@@ -349,7 +408,7 @@ const OrderPage = ({ orderId }: Props) => {
                                 {!isPaid && (
                                     <div>
                                         {isPending ? (
-                                            <p>Loading...</p>
+                                            <LoadingSpinner />
                                         ) : (
                                             <PayPalButtons
                                                 createOrder={createOrder}
@@ -361,6 +420,14 @@ const OrderPage = ({ orderId }: Props) => {
                                 )}
                             </div>
                         </div>
+                    </div>
+                )}
+                {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                    <div>
+                        {loadingDeliver && <LoadingSpinner />}
+                        <Button fullWidth onClickHandler={deliverOrderHandler}>
+                            Deliver Order
+                        </Button>
                     </div>
                 )}
             </>

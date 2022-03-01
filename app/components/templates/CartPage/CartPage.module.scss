@@ -75,6 +75,12 @@
                     color: $color-4;
                 }
             }
+            .darkMode {
+                color: $color-4;
+                &:hover {
+                    color: $color-5;
+                }
+            }
         }
         .Quantity {
             flex: 1 1 20%;
@@ -109,6 +115,10 @@
 
             & > p {
                 margin-bottom: 1.618rem;
+            }
+
+            &.darkMode {
+                background-color: rgba($color-5, 0.318);
             }
         }
     }

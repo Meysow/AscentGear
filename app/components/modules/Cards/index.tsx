@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 
 export default function Cards({ products }: ProductArray) {
     const { dispatch, state } = useContext(Store);
+    const { darkMode } = state;
     const router = useRouter();
 
     const addToCartHandler = async (product: ProductType) => {
@@ -35,10 +36,15 @@ export default function Cards({ products }: ProductArray) {
         router.push('/cart');
     };
 
+    const isDarkMode = darkMode ? styles.darkMode : '';
+
     return (
         <div className={styles.container}>
             {products.map((product) => (
-                <div className={styles.card} key={product.name}>
+                <div
+                    className={`${styles.card} ${isDarkMode}`}
+                    key={product.name}
+                >
                     <Link href={`/product/${product.slug}`} passHref>
                         <div className={styles['image-container']}>
                             <Image

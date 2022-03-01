@@ -29,7 +29,8 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (!userInfo) {
-            return router.push('/login');
+            router.push('/login');
+            return;
         }
         setValue('name', userInfo.name);
         setValue('email', userInfo.email);
