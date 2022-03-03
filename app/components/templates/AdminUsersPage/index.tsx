@@ -1,4 +1,4 @@
-import styles from './AdminProductsPage.module.scss';
+import styles from './AdminUsersPage.module.scss';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -7,7 +7,7 @@ import { Store } from '../../../utils/Store';
 import { getError } from '../../../utils/error';
 import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
-import { ProductType } from '../../../../typings';
+import { OrderTypesTwo, UserType } from '../../../../typings';
 import { toast } from 'react-toastify';
 
 const DynamicDefaultLayout = dynamic(
@@ -16,20 +16,18 @@ const DynamicDefaultLayout = dynamic(
 
 interface IState {
     loading: boolean;
-    products: ProductType[];
+    users: UserType[];
     error: string;
-    loadingCreate: boolean;
-    loadingDelete: boolean;
     successDelete: boolean;
+    loadingDelete: boolean;
 }
 
 const initialState: IState = {
     loading: true,
-    products: [],
+    users: [],
     error: '',
-    loadingCreate: false,
-    loadingDelete: false,
     successDelete: false,
+    loadingDelete: false,
 };
 
 function reducer(state: IState, action: any) {
@@ -40,17 +38,12 @@ function reducer(state: IState, action: any) {
             return {
                 ...state,
                 loading: false,
-                products: action.payload,
+                users: action.payload,
                 error: '',
             };
         case 'FETCH_FAIL':
             return { ...state, loading: false, error: action.payload };
-        case 'CREATE_REQUEST':
-            return { ...state, loadingCreate: true };
-        case 'CREATE_SUCCESS':
-            return { ...state, loadingCreate: false };
-        case 'CREATE_FAIL':
-            return { ...state, loadingCreate: false };
+
         case 'DELETE_REQUEST':
             return { ...state, loadingDelete: true };
         case 'DELETE_SUCCESS':
@@ -64,22 +57,13 @@ function reducer(state: IState, action: any) {
     }
 }
 
-const AdminProductsPage = () => {
+const AdminUsersPage = () => {
     const { state } = useContext(Store);
     const router = useRouter();
     const { userInfo } = state;
 
-    const [
-        {
-            loading,
-            error,
-            products,
-            loadingCreate,
-            successDelete,
-            loadingDelete,
-        },
-        dispatch,
-    ] = useReducer(reducer, initialState);
+    const [{ loading, error, users, successDelete, loadingDelete }, dispatch] =
+        useReducer(reducer, initialState);
 
     useEffect(() => {
         if (!userInfo) {
@@ -88,7 +72,7 @@ const AdminProductsPage = () => {
         const fetchData = async () => {
             try {
                 dispatch({ type: 'FETCH_REQUEST' });
-                const { data } = await axios.get(`/api/admin/products`, {
+                const { data } = await axios.get(`/api/admin/users`, {
                     headers: { authorization: `Bearer ${userInfo.token}` },
                 });
                 dispatch({ type: 'FETCH_SUCCESS', payload: data });
@@ -104,55 +88,27 @@ const AdminProductsPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [successDelete]);
 
-    const createHandler = async () => {
-        if (!window.confirm('Are you sure?')) {
-            return;
-        }
-        try {
-            dispatch({ type: 'CREATE_REQUEST' });
-            const { data } = await axios.post(
-                `/api/admin/products`,
-                {},
-                {
-                    headers: { authorization: `Bearer ${userInfo.token}` },
-                }
-            );
-            dispatch({ type: 'CREATE_SUCCESS' });
-
-            toast.success('Product created successfully', {
-                theme: 'colored',
-            });
-            router.push(`/admin/product/${data.product._id}`);
-        } catch (err) {
-            dispatch({ type: 'CREATE_FAIL' });
-            toast.error(getError(err), {
-                theme: 'colored',
-            });
-        }
-    };
-    const deleteHandler = async (productId: string) => {
+    const deleteHandler = async (userId: string) => {
         if (!window.confirm('Are you sure?')) {
             return;
         }
         try {
             dispatch({ type: 'DELETE_REQUEST' });
-            await axios.delete(`/api/admin/products/${productId}`, {
+            await axios.delete(`/api/admin/users/${userId}`, {
                 headers: { authorization: `Bearer ${userInfo.token}` },
             });
             dispatch({ type: 'DELETE_SUCCESS' });
-            toast.success('Product deleted successfully', {
+            toast.success('User deleted successfully', {
                 theme: 'colored',
             });
         } catch (err) {
             dispatch({ type: 'DELETE_FAIL' });
-            toast.error(getError(err), {
-                theme: 'colored',
-            });
+            toast.error(getError(err), { theme: 'colored' });
         }
     };
 
     return (
-        <DynamicDefaultLayout title='Admin Products'>
+        <DynamicDefaultLayout title='Admin Users'>
             <>
                 <div className={styles.container}>
                     <div className={styles.containerLeft}>
@@ -176,7 +132,6 @@ const AdminProductsPage = () => {
                             </Button>
 
                             <Button
-                                selected
                                 color='tertiary'
                                 onClickHandler={() =>
                                     router.push('/admin/products')
@@ -186,6 +141,7 @@ const AdminProductsPage = () => {
                             </Button>
 
                             <Button
+                                selected
                                 color='tertiary'
                                 onClickHandler={() =>
                                     router.push('/admin/users')
@@ -196,59 +152,42 @@ const AdminProductsPage = () => {
                         </div>
                     </div>
                     <div className={styles.containerRight}>
-                        <div className={styles.flexTitle}>
-                            <h1>Products</h1>
-                            <div>
-                                <Button onClickHandler={createHandler}>
-                                    Create New
-                                </Button>
-                                {loadingCreate && <LoadingSpinner />}
-                            </div>
-                        </div>
+                        <h1>Users</h1>
                         <div className={styles.row}>
                             <div className={styles.Id}>ID</div>
                             <div className={styles.Name}>NAME</div>
-                            <div className={styles.Price}>PRICE</div>
-                            <div className={styles.Category}>CATEGORY</div>
-                            <div className={styles.Count}>COUNT</div>
-                            <div className={styles.Rating}>RATING</div>
+                            <div className={styles.Email}>EMAIL</div>
+                            <div className={styles.IsAdmin}>ISADMIN</div>
                             <div className={styles.Actions}>ACTIONS</div>
                         </div>
 
-                        {products.map((product: ProductType) => (
-                            <div className={styles.row} key={product._id}>
+                        {users.map((user: UserType) => (
+                            <div className={styles.row} key={user._id}>
                                 <p className={styles.Id}>
-                                    {product._id.substring(20, 24)}
+                                    {user._id.substring(20, 24)}
                                 </p>
-                                <p className={styles.Name}>{product.name}</p>
-                                <p className={styles.Price}>${product.price}</p>
-                                <p className={styles.Category}>
-                                    {product.category}
+                                <p className={styles.Name}>{user.name}</p>
+                                <p className={styles.Email}>{user.email}</p>
+                                <p className={styles.IsAdmin}>
+                                    {user.isAdmin ? `YES` : 'NO'}
                                 </p>
-                                <p className={styles.Count}>
-                                    {product.countInStock}
-                                </p>
-                                <p className={styles.Rating}>
-                                    {product.rating}
-                                </p>
-                                <div className={styles.Actions}>
+                                <div className={styles.Action}>
                                     <Button
                                         color='tertiary'
                                         onClickHandler={() =>
-                                            router.push(
-                                                `/admin/product/${product._id}`
-                                            )
+                                            router.push(`/user/${user._id}`)
                                         }
                                     >
                                         Edit
                                     </Button>
+
                                     <Button
                                         color='tertiary'
                                         onClickHandler={() =>
-                                            deleteHandler(product._id)
+                                            deleteHandler(user._id)
                                         }
                                     >
-                                        Delete
+                                        Edit
                                     </Button>
                                 </div>
                             </div>
@@ -260,4 +199,4 @@ const AdminProductsPage = () => {
     );
 };
 
-export default AdminProductsPage;
+export default AdminUsersPage;

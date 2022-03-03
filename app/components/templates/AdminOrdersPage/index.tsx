@@ -110,6 +110,15 @@ const AdminOrdersPage = () => {
                             >
                                 Products
                             </Button>
+
+                            <Button
+                                color='tertiary'
+                                onClickHandler={() =>
+                                    router.push('/admin/users')
+                                }
+                            >
+                                Users
+                            </Button>
                         </div>
                     </div>
                     <div className={styles.containerRight}>

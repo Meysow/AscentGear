@@ -33,4 +33,15 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     }
 });
 
+handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
+    await dbConnect();
+    const product = await Product.findById(req.query.id);
+    if (product) {
+        await product.remove();
+        res.send({ message: 'Product Deleted' });
+    } else {
+        res.status(404).send({ message: 'Product Not Found' });
+    }
+});
+
 export default handler;

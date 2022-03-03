@@ -3,7 +3,13 @@ import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useEffect, useContext, useReducer } from 'react';
+import {
+    useEffect,
+    useContext,
+    useReducer,
+    FormEvent,
+    FormEventHandler,
+} from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Store } from '../../../utils/Store';
@@ -20,12 +26,14 @@ interface IState {
     loading: boolean;
     error: string;
     loadingUpdate: boolean;
+    loadingUpload: boolean;
 }
 
 const initialState: IState = {
     loading: true,
     error: '',
     loadingUpdate: false,
+    loadingUpload: false,
 };
 
 function reducer(state: IState, action: any) {
@@ -46,7 +54,20 @@ function reducer(state: IState, action: any) {
                 loadingUpdate: false,
                 errorUpdate: action.payload,
             };
-
+        case 'UPLOAD_REQUEST':
+            return { ...state, loadingUpload: true, errorUpload: '' };
+        case 'UPLOAD_SUCCESS':
+            return {
+                ...state,
+                loadingUpload: false,
+                errorUpload: '',
+            };
+        case 'UPLOAD_FAIL':
+            return {
+                ...state,
+                loadingUpload: false,
+                errorUpload: action.payload,
+            };
         default:
             return state;
     }
@@ -61,10 +82,8 @@ interface Props {
 const ProductEditPage = ({ params }: Props) => {
     const productId = params.id;
     const { state } = useContext(Store);
-    const [{ loading, error, loadingUpdate }, dispatch] = useReducer(
-        reducer,
-        initialState
-    );
+    const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
+        useReducer(reducer, initialState);
     const { register, handleSubmit, formState, setValue } = useForm();
     const router = useRouter();
     const { userInfo } = state;
@@ -142,6 +161,37 @@ const ProductEditPage = ({ params }: Props) => {
             });
         }
     };
+
+    const uploadHandler = async (e: any) => {
+        const file = e.target.files[0];
+        const bodyFormData = new FormData();
+        bodyFormData.append('file', file);
+        try {
+            dispatch({ type: 'UPLOAD_REQUEST' });
+            const { data } = await axios.post(
+                '/api/admin/upload',
+                bodyFormData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        authorization: `Bearer ${userInfo.token}`,
+                    },
+                }
+            );
+            dispatch({ type: 'UPLOAD_SUCCESS' });
+            setValue('image', data.secure_url);
+            toast.success('File uploaded successfully', {
+                theme: 'colored',
+            });
+        } catch (err) {
+            dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+
+            toast.error(getError(err), {
+                theme: 'colored',
+            });
+        }
+    };
+
     return (
         <DynamicDefaultLayout title={`Edit Product ${productId}`}>
             <div className={styles.container}>
@@ -171,6 +221,13 @@ const ProductEditPage = ({ params }: Props) => {
                             }
                         >
                             Products
+                        </Button>
+
+                        <Button
+                            color='tertiary'
+                            onClickHandler={() => router.push('/admin/users')}
+                        >
+                            Users
                         </Button>
                     </div>
                 </div>
@@ -257,6 +314,21 @@ const ProductEditPage = ({ params }: Props) => {
                                     {formState?.errors?.image.message}
                                 </p>
                             )}
+                        </div>
+                        <div>
+                            <Button
+                                onClickHandler={() => console.log('Click!')}
+                            >
+                                <>
+                                    Upload File
+                                    <input
+                                        type='file'
+                                        onChange={uploadHandler}
+                                        hidden
+                                    />
+                                </>
+                            </Button>
+                            {loadingUpload && <LoadingSpinner />}
                         </div>
                         <div>
                             <label className={styles.lbl}>
