@@ -4,7 +4,7 @@ const DynamicAdminUsersPage = dynamic(
     { ssr: false }
 );
 
-const AdminOrders = () => {
+const AdminUsers = () => {
     return <DynamicAdminUsersPage />;
 };
 

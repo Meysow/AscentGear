@@ -1,17 +1,43 @@
 import Link from 'next/link';
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { Store, ActionType } from '../../../utils/Store';
 import SwitchButton from '../../elements/SwitchButton';
 import styles from './Header.module.scss';
 import Cookies from 'js-cookie';
 import Button from '../../elements/Button';
 import { useRouter } from 'next/router';
+import { getError } from '../../../utils/error';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import HamburgerButton from '../../elements/HamburgerButton';
 
 const Header = () => {
     const [active, setActive] = useState(false);
     const { state, dispatch } = useContext(Store);
     const { darkMode, cart, userInfo } = state;
     const router = useRouter();
+
+    const [sidbarVisible, setSidebarVisible] = useState(false);
+    const sidebarOpenHandler = () => {
+        setSidebarVisible(true);
+    };
+    const sidebarCloseHandler = () => {
+        setSidebarVisible(false);
+    };
+
+    const [categories, setCategories] = useState([]);
+
+    const fetchCategories = async () => {
+        try {
+            const { data } = await axios.get(`/api/products/categories`);
+            setCategories(data);
+        } catch (err) {
+            toast.error(getError(err), { theme: 'colored' });
+        }
+    };
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     const darkModeHandler = () => {
         dispatch({
@@ -41,6 +67,19 @@ const Header = () => {
     return (
         <div className={styles.headerWrapper}>
             <nav className={styles.header}>
+                <HamburgerButton>
+                    <>
+                        <ul className={styles.categories}>
+                            {categories.map((category) => (
+                                <li key={category}>
+                                    <Link href={`/search?category=${category}`}>
+                                        <a>{category}</a>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </>
+                </HamburgerButton>
                 <Link href='/'>
                     <a>
                         <div className={styles.logo}>Amazona</div>

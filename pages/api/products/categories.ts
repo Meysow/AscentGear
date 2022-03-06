@@ -6,14 +6,9 @@ import Product from '../../../models/Product';
 const handler = nc();
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
-    await dbConnect();
-
-    try {
-        const product = await Product.findById(req.query.id);
-        res.status(200).json({ success: true, data: product });
-    } catch (error) {
-        res.status(400).json({ success: false });
-    }
+    await dbConnect;
+    const categories = await Product.find().distinct('category');
+    res.send(categories);
 });
 
 export default handler;

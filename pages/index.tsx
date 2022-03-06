@@ -23,7 +23,8 @@ export async function getServerSideProps() {
     await dbConnect();
 
     /* find all the data in our database */
-    const results = await Product.find({}).lean();
+    // const results = await Product.find({}).lean();
+    const results = await Product.find({}, '-reviews').lean();
 
     const products = results.map(convertDocToObj);
 

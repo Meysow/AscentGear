@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import { ActionType, Store } from '../../../utils/Store';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import { Rating } from 'react-simple-star-rating';
 
 export default function Cards({ products }: ProductArray) {
     const { dispatch, state } = useContext(Store);
@@ -22,7 +23,6 @@ export default function Cards({ products }: ProductArray) {
 
         const { data } = await axios.get(`/api/products/${product._id}`);
         if (data.data.countInStock < quantity) {
-            // window.alert('Sorry, Product is out of stock');
             toast.error(`Sorry, Product is out of stock`, {
                 theme: 'colored',
             });
@@ -37,6 +37,8 @@ export default function Cards({ products }: ProductArray) {
     };
 
     const isDarkMode = darkMode ? styles.darkMode : '';
+
+    console.log(products[1].rating);
 
     return (
         <div className={styles.container}>
@@ -60,9 +62,17 @@ export default function Cards({ products }: ProductArray) {
                     </Link>
 
                     <div className={styles['card__content']}>
-                        <p className={styles['card__content--title']}>
-                            {product.name}
-                        </p>
+                        <div className={styles.flex}>
+                            <p className={styles['card__content--title']}>
+                                {product.name}
+                            </p>
+                            <Rating
+                                ratingValue={product.rating * 20}
+                                readonly
+                                allowHalfIcon
+                                size={23}
+                            />
+                        </div>
                         <div className={styles['card__content--body']}>
                             <p>${product.price}</p>
                             <Button

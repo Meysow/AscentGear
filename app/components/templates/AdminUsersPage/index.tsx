@@ -6,8 +6,7 @@ import React, { useEffect, useContext, useReducer } from 'react';
 import { Store } from '../../../utils/Store';
 import { getError } from '../../../utils/error';
 import Button from '../../elements/Button';
-import LoadingSpinner from '../../elements/LoadingSpinner';
-import { OrderTypesTwo, UserType } from '../../../../typings';
+import { UserType } from '../../../../typings';
 import { toast } from 'react-toastify';
 
 const DynamicDefaultLayout = dynamic(
@@ -187,7 +186,7 @@ const AdminUsersPage = () => {
                                             deleteHandler(user._id)
                                         }
                                     >
-                                        Edit
+                                        Delete
                                     </Button>
                                 </div>
                             </div>

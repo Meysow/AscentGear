@@ -1,6 +1,7 @@
 @import '../../../styles/app.scss';
 
 .headerWrapper {
+    position: relative;
     // @include bg-gradient;
     background-color: $color-primary;
     padding: 1rem 1.5rem;
@@ -16,6 +17,7 @@
 }
 
 .header {
+    z-index: 999;
     max-width: map_get($container-max-widths, xl);
     font-family: $font-2;
     color: $color-light;
@@ -98,4 +100,11 @@
             z-index: -999;
         }
     }
+}
+
+.categories {
+    padding-inline: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
 }

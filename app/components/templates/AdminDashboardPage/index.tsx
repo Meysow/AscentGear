@@ -5,18 +5,18 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import React, { useEffect, useContext, useReducer } from 'react';
 import { Bar } from 'react-chartjs-2';
-// import {
-//     Chart as ChartJS,
-//     CategoryScale,
-//     LinearScale,
-//     BarElement,
-// } from 'chart.js';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+} from 'chart.js';
 import { Store } from '../../../utils/Store';
 import { getError } from '../../../utils/error';
 import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
 
-// ChartJS.register(CategoryScale, LinearScale, BarElement);
+ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')

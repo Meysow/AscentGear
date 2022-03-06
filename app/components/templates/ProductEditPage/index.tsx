@@ -2,21 +2,13 @@ import styles from './ProductEditPage.module.scss';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-import {
-    useEffect,
-    useContext,
-    useReducer,
-    FormEvent,
-    FormEventHandler,
-} from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useContext, useReducer } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Store } from '../../../utils/Store';
 import { getError } from '../../../utils/error';
 import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
-import { ProductType } from '../../../../typings';
 
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout')
