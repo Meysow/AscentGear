@@ -1,0 +1,57 @@
+@import '../../../styles/app.scss';
+
+.container {
+    margin-top: 3.6rem;
+    display: flex;
+    gap: 1.6rem;
+
+    .left {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+        padding: 1.8rem 1.8rem;
+        flex: 1 0 23%;
+        border-radius: 0.8rem;
+        box-shadow: $box-shadow;
+        align-self: flex-start;
+
+        .filter {
+            display: flex;
+            flex-direction: column;
+            border-bottom: solid 1px $color-5;
+        }
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+        padding: 1.8rem 1.8rem;
+        border-radius: 0.8rem;
+
+        flex: 1 0 77%;
+        box-shadow: $box-shadow;
+
+        .rightHeader {
+            display: flex;
+            justify-content: space-between;
+            .btnClose {
+                cursor: pointer;
+                animation: 0.3s;
+                border-radius: 50%;
+                margin-left: 0.8rem;
+            }
+            .flexRight {
+                display: flex;
+            }
+            .listBoxContainer {
+                min-width: 16rem;
+                border-bottom: 1px solid $color-5;
+            }
+        }
+    }
+}
+
+.paginationBar {
+    color: red;
+}

@@ -38,8 +38,6 @@ export default function Cards({ products }: ProductArray) {
 
     const isDarkMode = darkMode ? styles.darkMode : '';
 
-    console.log(products[1].rating);
-
     return (
         <div className={styles.container}>
             {products.map((product) => (

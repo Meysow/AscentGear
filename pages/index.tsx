@@ -12,18 +12,16 @@ const DynamicDefaultLayout = dynamic(
 
 const Home = ({ products }: ProductArray) => {
     return (
-        <DynamicDefaultLayout>
+        <DynamicDefaultLayout title='Search'>
             <HomePage products={products} />
         </DynamicDefaultLayout>
     );
 };
 
-/* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
     await dbConnect();
 
     /* find all the data in our database */
-    // const results = await Product.find({}).lean();
     const results = await Product.find({}, '-reviews').lean();
 
     const products = results.map(convertDocToObj);

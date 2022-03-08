@@ -21,7 +21,7 @@
 @mixin content-width {
     width: min(92%, map_get($container-max-widths, xl));
     // max-width: map_get($container-max-widths, xs);
-    padding: 3rem 1rem;
+    padding: 2.8rem 1rem;
 
     @include breakpoint('lg') {
         width: min(88%, map_get($container-max-widths, xl));
@@ -31,24 +31,24 @@
 @mixin grid-product {
     display: grid;
     grid-template-columns: repeat(1, minmax(200px, 1fr));
-    gap: 2rem;
+    gap: 1.6rem;
     padding: 1rem;
 
     @include breakpoint('sm') {
         grid-template-columns: repeat(2, minmax(200px, 1fr));
-        gap: 2.3rem;
+        gap: 2rem;
         padding: 1.5rem;
     }
 
     @include breakpoint('md') {
         grid-template-columns: repeat(3, minmax(200px, 1fr));
-        gap: 3rem;
+        gap: 2.6rem;
         padding: 2rem 1.5rem;
     }
 
     @include breakpoint('lg') {
         padding: 2.5rem 2rem;
-        gap: 3.7rem;
+        gap: 3.2rem;
     }
 
     @include breakpoint('xl') {

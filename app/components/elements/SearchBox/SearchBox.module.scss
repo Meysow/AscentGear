@@ -1,0 +1,56 @@
+@import '../../../styles/app.scss';
+
+.container {
+    position: absolute;
+    top: 1.6rem;
+    right: 0;
+
+    .ipt {
+        border: 1px solid transparent;
+        border-radius: 0.8rem;
+        -webkit-border-radius: 0.8rem;
+        -moz-border-radius: 0.8rem;
+        -ms-border-radius: 0.8rem;
+        -o-border-radius: 0.8rem;
+        animation: 0.3s;
+        -webkit-animation: 0.3s;
+        outline: none;
+        font-family: $font-3;
+        font-weight: 500;
+        font-size: 1.6rem;
+        color: $color-dark;
+        padding: 0.3rem 0.6rem;
+        box-shadow: $box-shadow;
+        &::placeholder {
+            font-family: $font-1;
+            font-weight: 500;
+            font-size: 1.6rem;
+            color: $color-dark;
+        }
+
+        &:focus-within {
+            border-color: $color-4;
+            background-color: rgba($color-4, 0.0318);
+        }
+    }
+
+    .btn {
+        position: relative;
+        left: -2.7rem;
+        border: none;
+        border-radius: 0.8rem;
+        -webkit-border-radius: 0.8rem;
+        -moz-border-radius: 0.8rem;
+        -ms-border-radius: 0.8rem;
+        -o-border-radius: 0.8rem;
+        animation: 0.3s;
+        -webkit-animation: 0.3s;
+        outline: none;
+        font-family: $font-3;
+        font-weight: 500;
+        font-size: 1.6rem;
+        color: $color-dark;
+        padding: 0.3rem 0.7rem;
+        cursor: pointer;
+    }
+}

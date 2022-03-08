@@ -68,17 +68,21 @@ const Header = () => {
         <div className={styles.headerWrapper}>
             <nav className={styles.header}>
                 <HamburgerButton>
-                    <>
-                        <ul className={styles.categories}>
-                            {categories.map((category) => (
-                                <li key={category}>
-                                    <Link href={`/search?category=${category}`}>
-                                        <a>{category}</a>
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </>
+                    {categories && (
+                        <>
+                            <ul className={styles.categories}>
+                                {categories.map((category) => (
+                                    <li key={category}>
+                                        <Link
+                                            href={`/search?category=${category}`}
+                                        >
+                                            <a>{category}</a>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
                 </HamburgerButton>
                 <Link href='/'>
                     <a>

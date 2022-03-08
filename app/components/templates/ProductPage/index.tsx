@@ -96,8 +96,6 @@ const ProductPage = ({ product }: Props) => {
         setRating(rate / 20);
     };
 
-    console.log(rating);
-
     return (
         <DynamicDefaultLayout title={product.name}>
             <>

@@ -24,7 +24,9 @@
         "pages/api/seed.ts",
         "models/Product.ts",
         "app/components/modules/Cards/index.tsx",
-        "lib/dbConnect.js"
+        "lib/dbConnect.js",
+        "pages/search.tsx",
+        "app/components/templates/SearchPage/index.tsx"
     ],
     "exclude": ["node_modules"]
 }

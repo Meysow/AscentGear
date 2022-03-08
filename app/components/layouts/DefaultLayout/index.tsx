@@ -1,12 +1,13 @@
 import Head from 'next/head';
 import styles from './DefaultLayout.module.scss';
 import Footer from '../../modules/Footer';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Store } from '../../../utils/Store';
 import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
+import { useRouter } from 'next/router';
 
 const DynamicHeader = dynamic(() => import('../../modules/Header'), {
     ssr: false,
@@ -19,6 +20,7 @@ const DefaultLayout = ({
     title?: string;
     children: JSX.Element;
 }) => {
+    const router = useRouter();
     const { state } = useContext(Store);
     const { darkMode } = state;
 
@@ -26,6 +28,15 @@ const DefaultLayout = ({
         if (Cookies.get('darkMode' || darkMode === true) === 'ON') {
             return 'dark-mode';
         } else return 'light-mode';
+    };
+
+    const [query, setQuery] = useState('');
+    const queryChangeHandler = (e: any) => {
+        setQuery(e.target.value);
+    };
+    const submitHandler = (e: any) => {
+        e.preventDefault();
+        router.push(`/search?query=${query}`);
     };
 
     return (
