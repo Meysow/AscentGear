@@ -17,14 +17,6 @@ const Header = () => {
     const { darkMode, cart, userInfo } = state;
     const router = useRouter();
 
-    const [sidbarVisible, setSidebarVisible] = useState(false);
-    const sidebarOpenHandler = () => {
-        setSidebarVisible(true);
-    };
-    const sidebarCloseHandler = () => {
-        setSidebarVisible(false);
-    };
-
     const [categories, setCategories] = useState([]);
 
     const fetchCategories = async () => {

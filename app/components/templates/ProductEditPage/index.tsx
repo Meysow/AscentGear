@@ -127,6 +127,7 @@ const ProductEditPage = ({ params }: Props) => {
         toast.dismiss();
         try {
             dispatch({ type: 'UPDATE_REQUEST' });
+            console.log(image);
             await axios.put(
                 `/api/admin/products/${productId}`,
                 {
@@ -154,8 +155,9 @@ const ProductEditPage = ({ params }: Props) => {
         }
     };
 
-    const uploadHandler = async (e: any) => {
+    const uploadHandler = async (e: any, imageField = 'image') => {
         const file = e.target.files[0];
+        console.log(file);
         const bodyFormData = new FormData();
         bodyFormData.append('file', file);
         try {
@@ -171,7 +173,7 @@ const ProductEditPage = ({ params }: Props) => {
                 }
             );
             dispatch({ type: 'UPLOAD_SUCCESS' });
-            setValue('image', data.secure_url);
+            setValue(imageField, data.secure_url);
             toast.success('File uploaded successfully', {
                 theme: 'colored',
             });
@@ -293,7 +295,7 @@ const ProductEditPage = ({ params }: Props) => {
                             <label className={styles.lbl}>
                                 Image
                                 <input
-                                    type='image'
+                                    type='file'
                                     id='image'
                                     className={styles.ipt}
                                     {...register('image', {
@@ -308,9 +310,7 @@ const ProductEditPage = ({ params }: Props) => {
                             )}
                         </div>
                         <div>
-                            <Button
-                                onClickHandler={() => console.log('Click!')}
-                            >
+                            <button>
                                 <>
                                     Upload File
                                     <input
@@ -319,7 +319,7 @@ const ProductEditPage = ({ params }: Props) => {
                                         hidden
                                     />
                                 </>
-                            </Button>
+                            </button>
                             {loadingUpload && <LoadingSpinner />}
                         </div>
                         <div>
