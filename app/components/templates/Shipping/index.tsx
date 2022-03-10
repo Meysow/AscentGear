@@ -159,7 +159,11 @@ const ShippingPage = () => {
                         )}
                     </div>
                     <div className={styles.btnContainer}>
-                        <Button shadow onClickHandler={() => submitHandler}>
+                        <Button
+                            shadow
+                            submit
+                            onClickHandler={() => console.log('Continue !')}
+                        >
                             Continue
                         </Button>
                     </div>

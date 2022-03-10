@@ -74,8 +74,6 @@ const SearchPage = ({ serverProps }: any) => {
         });
     };
 
-    console.log(sort, 'sort');
-
     const categoryHandler = (option: string) => {
         filterSearch({ category: option });
     };
@@ -94,8 +92,6 @@ const SearchPage = ({ serverProps }: any) => {
     const sortHandler = (option: string) => {
         filterSearch({ sort: option });
     };
-
-    console.log(sort, 'sort');
 
     return (
         <DynamicDefaultLayout title='Search'>

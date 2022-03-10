@@ -189,7 +189,12 @@ const ProfilePage = () => {
                                 )}
                             </div>
                             <div className={styles.btnContainer}>
-                                <Button onClickHandler={() => submitHandler}>
+                                <Button
+                                    submit
+                                    onClickHandler={() =>
+                                        console.log('Profil Update !')
+                                    }
+                                >
                                     Update Profile
                                 </Button>
                             </div>

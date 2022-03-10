@@ -221,7 +221,10 @@ const ProductPage = ({ product }: Props) => {
                                     </label>
 
                                     <Button
-                                        onClickHandler={() => submitHandler}
+                                        onClickHandler={() =>
+                                            console.log('Review Posted !')
+                                        }
+                                        submit
                                     >
                                         Submit
                                     </Button>

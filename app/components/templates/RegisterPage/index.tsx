@@ -159,7 +159,10 @@ const RegisterPage = () => {
                     )}
                 </div>
                 <div className={styles.btnContainer}>
-                    <Button onClickHandler={() => submitHandler}>
+                    <Button
+                        submit
+                        onClickHandler={() => console.log('Register !')}
+                    >
                         Register
                     </Button>
                 </div>

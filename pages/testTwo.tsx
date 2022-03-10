@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import styles from '../app/styles/test.module.scss';
 import axios from 'axios';
 
 const DynamicDefaultLayout = dynamic(
@@ -33,7 +32,6 @@ const Test = () => {
     };
 
     const uploadImage = async (base64EncodedImage: any) => {
-        console.log(base64EncodedImage);
         try {
             const data = JSON.stringify({ data: base64EncodedImage });
             await axios.post('/api/uploadTest', data, {
@@ -47,7 +45,7 @@ const Test = () => {
     return (
         <DynamicDefaultLayout>
             <div>
-                <h1 className={styles.title}>Image Uploader</h1>
+                <h1>Image Uploader</h1>
 
                 <form onSubmit={handleSubmitFile}>
                     <input

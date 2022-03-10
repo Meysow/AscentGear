@@ -2,7 +2,7 @@ import styles from './ProductEditPage.module.scss';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useEffect, useContext, useReducer } from 'react';
+import { useEffect, useContext, useReducer, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Store } from '../../../utils/Store';
@@ -80,6 +80,9 @@ const ProductEditPage = ({ params }: Props) => {
     const router = useRouter();
     const { userInfo } = state;
 
+    const [previewSource, setPreviewSource] = useState<any>();
+    const [initialSource, setInitialSource] = useState<any>();
+
     useEffect(() => {
         if (!userInfo) {
             router.push('/login');
@@ -100,7 +103,7 @@ const ProductEditPage = ({ params }: Props) => {
                     setValue('name', data.name);
                     setValue('slug', data.slug);
                     setValue('price', data.price);
-                    setValue('image', data.image);
+                    setInitialSource(data.image);
                     setValue('category', data.category);
                     setValue('brand', data.brand);
                     setValue('countInStock', data.countInStock);
@@ -111,6 +114,7 @@ const ProductEditPage = ({ params }: Props) => {
             };
             fetchData();
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -119,15 +123,21 @@ const ProductEditPage = ({ params }: Props) => {
         slug,
         price,
         category,
-        image,
         brand,
         countInStock,
         description,
     }: any) => {
         toast.dismiss();
+        if (!previewSource) {
+            toast.error('you must enter an image', {
+                theme: 'colored',
+            });
+            return;
+        }
         try {
             dispatch({ type: 'UPDATE_REQUEST' });
-            console.log(image);
+            const image = previewSource;
+            uploadImage(previewSource);
             await axios.put(
                 `/api/admin/products/${productId}`,
                 {
@@ -142,10 +152,10 @@ const ProductEditPage = ({ params }: Props) => {
                 },
                 { headers: { authorization: `Bearer ${userInfo.token}` } }
             );
-            dispatch({ type: 'UPDATE_SUCCESS' });
             toast.success('Product updated successfully', {
                 theme: 'colored',
             });
+            dispatch({ type: 'UPDATE_SUCCESS' });
             router.push('/admin/products');
         } catch (err) {
             dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
@@ -155,34 +165,30 @@ const ProductEditPage = ({ params }: Props) => {
         }
     };
 
-    const uploadHandler = async (e: any, imageField = 'image') => {
-        const file = e.target.files[0];
-        console.log(file);
-        const bodyFormData = new FormData();
-        bodyFormData.append('file', file);
-        try {
-            dispatch({ type: 'UPLOAD_REQUEST' });
-            const { data } = await axios.post(
-                '/api/admin/upload',
-                bodyFormData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        authorization: `Bearer ${userInfo.token}`,
-                    },
-                }
-            );
-            dispatch({ type: 'UPLOAD_SUCCESS' });
-            setValue(imageField, data.secure_url);
-            toast.success('File uploaded successfully', {
-                theme: 'colored',
-            });
-        } catch (err) {
-            dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+    // Upload Part //
 
-            toast.error(getError(err), {
-                theme: 'colored',
+    const handleFileInputChange = (e: any) => {
+        const file = e.target.files[0];
+        previewFile(file);
+    };
+
+    const previewFile = (file: any) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        };
+    };
+
+    const uploadImage = async (base64EncodedImage: any) => {
+        if (initialSource === previewSource) return; // We don't upload the image on Cloudinary if the image has not been changed
+        try {
+            const data = JSON.stringify({ data: base64EncodedImage });
+            await axios.post('/api/upload', data, {
+                headers: { 'Content-type': 'application/json' },
             });
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -291,37 +297,44 @@ const ProductEditPage = ({ params }: Props) => {
                                 </p>
                             )}
                         </div>
+
                         <div>
                             <label className={styles.lbl}>
                                 Image
                                 <input
                                     type='file'
                                     id='image'
+                                    name='image'
                                     className={styles.ipt}
-                                    {...register('image', {
-                                        required: 'Image is required',
-                                    })}
+                                    onChange={handleFileInputChange}
                                 />
                             </label>
-                            {formState?.errors?.image && (
-                                <p className={styles.error}>
-                                    {formState?.errors?.image.message}
-                                </p>
-                            )}
-                        </div>
-                        <div>
-                            <button>
+                            {previewSource && (
                                 <>
-                                    Upload File
-                                    <input
-                                        type='file'
-                                        onChange={uploadHandler}
-                                        hidden
+                                    <p className={styles.imageTitle}>
+                                        New Image :
+                                    </p>
+                                    <img
+                                        src={previewSource}
+                                        alt='choosen'
+                                        className={styles.imagePreview}
                                     />
                                 </>
-                            </button>
-                            {loadingUpload && <LoadingSpinner />}
+                            )}
+                            {initialSource && (
+                                <>
+                                    <p className={styles.imageTitle}>
+                                        Current Image :
+                                    </p>
+                                    <img
+                                        src={initialSource}
+                                        alt='Current'
+                                        className={styles.imagePreview}
+                                    />
+                                </>
+                            )}
                         </div>
+
                         <div>
                             <label className={styles.lbl}>
                                 Category
@@ -401,7 +414,12 @@ const ProductEditPage = ({ params }: Props) => {
                         </div>
 
                         <div className={styles.btnContainer}>
-                            <Button onClickHandler={() => submitHandler}>
+                            <Button
+                                onClickHandler={() =>
+                                    console.log('Submit in Edit Page !')
+                                }
+                                submit
+                            >
                                 Update
                             </Button>
                             {loadingUpdate && <LoadingSpinner />}

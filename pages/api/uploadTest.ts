@@ -26,7 +26,6 @@ handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
         const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: 'dev_setups',
         });
-        console.log(uploadedResponse);
         res.json({ message: 'Successfully uploaded !' });
     } catch (error) {
         console.log(error);

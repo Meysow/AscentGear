@@ -7,6 +7,7 @@ interface ButtonProps {
     color?: string;
     shadow?: boolean;
     selected?: boolean;
+    submit?: boolean;
     onClickHandler: (() => void) | ((e: FormEvent) => void);
 }
 
@@ -17,6 +18,7 @@ const Button = (
         color = 'default',
         shadow = false,
         selected = false,
+        submit = false,
         onClickHandler,
     }: ButtonProps,
     ref: any
@@ -32,7 +34,11 @@ const Button = (
                 styles.btnContainer
             } ${btnFull} ${btnShadow} ${btnSelected} ${styles[`${color}`]}`}
         >
-            <button className={styles.btn} onClick={onClickHandler}>
+            <button
+                className={styles.btn}
+                onClick={onClickHandler}
+                type={submit ? 'submit' : 'button'}
+            >
                 {children}
             </button>
         </div>

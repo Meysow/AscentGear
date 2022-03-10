@@ -225,7 +225,12 @@ const UserEditPage = ({ params }: Props) => {
                         </div>
 
                         <div className={styles.btnContainer}>
-                            <Button onClickHandler={() => submitHandler}>
+                            <Button
+                                submit
+                                onClickHandler={() =>
+                                    console.log('Profile Update !')
+                                }
+                            >
                                 Update
                             </Button>
                             {loadingUpdate && <LoadingSpinner />}

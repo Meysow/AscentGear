@@ -110,7 +110,11 @@ const LoginPage = () => {
                     )}
                 </div>
                 <div className={styles.btnContainer}>
-                    <Button shadow onClickHandler={() => submitHandler}>
+                    <Button
+                        shadow
+                        submit
+                        onClickHandler={() => console.log('Submit Login')}
+                    >
                         Login
                     </Button>
                 </div>
