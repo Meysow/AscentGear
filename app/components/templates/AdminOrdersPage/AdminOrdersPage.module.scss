@@ -29,6 +29,7 @@
         flex: 1 1 75%;
         @include card;
         padding: 1.6rem;
+        font-size: clamp(1rem, 0.8rem + 0.6vw, 1.6rem);
 
         .row {
             display: flex;
@@ -38,6 +39,20 @@
 
             & > * {
                 flex: 1;
+                font-size: clamp(1rem, 0.8rem + 0.6vw, 1.6rem);
+                text-align: center;
+            }
+
+            .Action {
+                flex: 0.6;
+                gap: clamp(0.3rem, 0.1rem + 0.6vw, 1.2rem);
+
+                div {
+                    button {
+                        padding: clamp(0.3rem, 0.1rem + 0.5vw, 0.8rem);
+                        font-size: clamp(0.8rem, 0.6rem + 1vw, 1.6rem);
+                    }
+                }
             }
         }
     }

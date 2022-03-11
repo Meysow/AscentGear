@@ -12,7 +12,8 @@ import { toast } from 'react-toastify';
 import { getError } from '../../../utils/error';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 type FormValues = {
@@ -23,7 +24,7 @@ type FormValues = {
 const LoginPage = () => {
     const { register, handleSubmit, formState } = useForm<FormValues>();
     const { state, dispatch } = useContext(Store);
-    const { userInfo } = state;
+    const { userInfo, darkMode } = state;
     const router = useRouter();
     const { redirect }: any = router.query;
 
@@ -59,7 +60,7 @@ const LoginPage = () => {
         <DynamicDefaultLayout>
             <form
                 onSubmit={handleSubmit(submitHandler)}
-                className={styles.form}
+                className={`${styles.form} ${darkMode && styles.darkMode}`}
             >
                 <h1>Login</h1>
                 <div>

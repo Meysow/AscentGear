@@ -4,10 +4,14 @@ import styles from './PaymentPage.module.scss';
 import { useContext, useEffect } from 'react';
 import { ActionType, Store } from '../../../utils/Store';
 import CheckoutWizard from '../../elements/CheckoutWizard';
-import DefaultLayout from '../../layouts/DefaultLayout';
 import { useForm } from 'react-hook-form';
 import Button from '../../elements/Button';
 import { toast } from 'react-toastify';
+import dynamic from 'next/dynamic';
+
+const DefaultLayout = dynamic(() => import('../../layouts/DefaultLayout'), {
+    ssr: false,
+});
 
 type FormValues = {
     paymentMethod: string;
@@ -20,6 +24,7 @@ const PaymentPage = () => {
     const { state, dispatch } = useContext(Store);
     const {
         cart: { shippingAddress, paymentMethod },
+        darkMode,
     } = state;
 
     useEffect(() => {
@@ -57,7 +62,7 @@ const PaymentPage = () => {
                     <CheckoutWizard activeStep={2} />
                 </div>
                 <form
-                    className={styles.form}
+                    className={`${styles.form} ${darkMode && styles.darkMode}`}
                     onSubmit={handleSubmit(submitHandler)}
                 >
                     <h1>Payment Method</h1>
@@ -91,12 +96,17 @@ const PaymentPage = () => {
                         <span className={styles.span}>Cash</span>
                     </label>
                     <div className={styles.btnContainer}>
-                        <Button shadow onClickHandler={() => submitHandler}>
+                        <Button
+                            submit
+                            shadow
+                            onClickHandler={() => console.log('continue')}
+                        >
                             Continue
                         </Button>
                     </div>
                     <div className={styles.btnContainer}>
                         <Button
+                            submit
                             shadow
                             color='tertiary'
                             onClickHandler={() => router.push('/shipping')}

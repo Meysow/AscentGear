@@ -3,7 +3,7 @@
 .content {
     .title {
         font-size: 2.8rem;
-        padding: 0 1rem;
+        padding: 2rem 1rem 0;
 
         @include breakpoint('sm') {
             padding: 1rem 1.5rem;

@@ -12,7 +12,8 @@ import { toast } from 'react-toastify';
 import { getError } from '../../../utils/error';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 type FormValues = {

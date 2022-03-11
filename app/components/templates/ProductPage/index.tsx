@@ -15,7 +15,8 @@ import LoadingSpinner from '../../elements/LoadingSpinner';
 import { Rating } from 'react-simple-star-rating';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface Props {

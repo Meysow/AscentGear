@@ -22,7 +22,9 @@ handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
         product.slug = req.body.slug;
         product.price = req.body.price;
         product.category = req.body.category;
-        product.image = req.body.image;
+        if (req.body.image) {
+            product.image = req.body.image;
+        } // Check if user updated the image, if not, keep the old image.
         product.brand = req.body.brand;
         product.countInStock = req.body.countInStock;
         product.description = req.body.description;

@@ -11,7 +11,8 @@ import { ProductType } from '../../../../typings';
 import { toast } from 'react-toastify';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface IState {
@@ -243,7 +244,7 @@ const AdminProductsPage = () => {
                                         Edit
                                     </Button>
                                     <Button
-                                        color='tertiary'
+                                        color='danger'
                                         onClickHandler={() =>
                                             deleteHandler(product._id)
                                         }

@@ -69,3 +69,43 @@
         }
     }
 }
+
+.paginationContainer.darkMode {
+    .paginationItem {
+        color: $color-light;
+
+        &.dots:hover {
+            background-color: transparent;
+            cursor: default;
+        }
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+        }
+
+        &.selected {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .arrow {
+            &::before {
+                border-right: 0.12em solid rgba(255, 255, 255, 0.87);
+                border-top: 0.12em solid rgba(255, 255, 255, 0.87);
+            }
+        }
+
+        &.disabled {
+            pointer-events: none;
+
+            .arrow::before {
+                border-right: 0.12em solid rgba(255, 255, 255, 0.43);
+                border-top: 0.12em solid rgba(255, 255, 255, 0.43);
+            }
+
+            &:hover {
+                background-color: transparent;
+                cursor: default;
+            }
+        }
+    }
+}

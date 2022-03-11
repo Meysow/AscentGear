@@ -16,6 +16,12 @@
             background-color: $color-5;
         }
     }
+    &.danger {
+        background-color: rgba($color-danger, 0.5);
+        &:hover {
+            background-color: rgba($color-danger, 0.8);
+        }
+    }
     &.selected {
         background-color: $color-5;
     }

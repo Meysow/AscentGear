@@ -10,7 +10,8 @@ import { UserType } from '../../../../typings';
 import { toast } from 'react-toastify';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface IState {
@@ -170,18 +171,20 @@ const AdminUsersPage = () => {
                                 <p className={styles.IsAdmin}>
                                     {user.isAdmin ? `YES` : 'NO'}
                                 </p>
-                                <div className={styles.Action}>
+                                <div className={styles.Actions}>
                                     <Button
                                         color='tertiary'
                                         onClickHandler={() =>
-                                            router.push(`/user/${user._id}`)
+                                            router.push(
+                                                `/admin/user/${user._id}`
+                                            )
                                         }
                                     >
                                         Edit
                                     </Button>
 
                                     <Button
-                                        color='tertiary'
+                                        color='danger'
                                         onClickHandler={() =>
                                             deleteHandler(user._id)
                                         }

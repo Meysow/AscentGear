@@ -10,7 +10,8 @@ import LoadingSpinner from '../../elements/LoadingSpinner';
 import { OrderTypesTwo } from '../../../../typings';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 const formatDate = (date: string) => {

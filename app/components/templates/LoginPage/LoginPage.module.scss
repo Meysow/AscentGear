@@ -77,3 +77,26 @@
     margin-top: 0.3rem;
     position: absolute;
 }
+
+.darkMode {
+    .lbl {
+        color: $color-light;
+
+        &:hover {
+            color: $color-4;
+
+            & .ipt {
+                border-color: $color-4;
+            }
+        }
+
+        &:focus-within {
+            color: $color-4;
+
+            & .ipt {
+                border-color: $color-4;
+                background-color: rgba($color-4, 0.618);
+            }
+        }
+    }
+}

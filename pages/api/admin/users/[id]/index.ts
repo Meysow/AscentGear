@@ -9,8 +9,12 @@ handler.use(isAuth, isAdmin);
 
 handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
-    const user = await User.findById(req.query.id);
-    res.send(user);
+    try {
+        const user = await User.findById(req.query.id);
+        res.send(user);
+    } catch (error) {
+        res.send({ message: 'error in users/[id]' });
+    }
 });
 
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {

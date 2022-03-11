@@ -9,7 +9,8 @@ import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
 import styles from './OrderHistory.module.scss';
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 const formatDate = (date: string) => {

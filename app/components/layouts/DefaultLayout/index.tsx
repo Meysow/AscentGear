@@ -30,15 +30,6 @@ const DefaultLayout = ({
         } else return 'light-mode';
     };
 
-    const [query, setQuery] = useState('');
-    const queryChangeHandler = (e: any) => {
-        setQuery(e.target.value);
-    };
-    const submitHandler = (e: any) => {
-        e.preventDefault();
-        router.push(`/search?query=${query}`);
-    };
-
     return (
         <div className={styles[`${themeChecker()}`]}>
             <Head>

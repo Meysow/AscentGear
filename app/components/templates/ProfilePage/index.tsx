@@ -10,7 +10,8 @@ import { ActionType, Store } from '../../../utils/Store';
 import Button from '../../elements/Button';
 import styles from './ProfilePage.module.scss';
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 type FormValues = {
@@ -23,7 +24,7 @@ type FormValues = {
 const ProfilePage = () => {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
-    const { userInfo } = state;
+    const { userInfo, darkMode } = state;
     const { register, handleSubmit, formState, setValue } =
         useForm<FormValues>();
 
@@ -96,7 +97,9 @@ const ProfilePage = () => {
                         <h1>Profile</h1>
                         <form
                             onSubmit={handleSubmit(submitHandler)}
-                            className={styles.form}
+                            className={`${styles.form} ${
+                                darkMode && styles.darkMode
+                            }`}
                         >
                             <div>
                                 <label className={styles.lbl}>

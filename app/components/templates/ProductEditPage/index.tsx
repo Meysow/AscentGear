@@ -11,7 +11,8 @@ import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface IState {
@@ -128,35 +129,52 @@ const ProductEditPage = ({ params }: Props) => {
         description,
     }: any) => {
         toast.dismiss();
-        if (!previewSource) {
-            toast.error('you must enter an image', {
-                theme: 'colored',
-            });
-            return;
-        }
         try {
             dispatch({ type: 'UPDATE_REQUEST' });
-            const image = previewSource;
-            uploadImage(previewSource);
-            await axios.put(
-                `/api/admin/products/${productId}`,
-                {
-                    name,
-                    slug,
-                    price,
-                    category,
-                    image,
-                    brand,
-                    countInStock,
-                    description,
-                },
-                { headers: { authorization: `Bearer ${userInfo.token}` } }
-            );
+            if (previewSource) {
+                const image = previewSource;
+                uploadImage(previewSource);
+                await axios.put(
+                    `/api/admin/products/${productId}`,
+                    {
+                        name,
+                        slug,
+                        price,
+                        category,
+                        image,
+                        brand,
+                        countInStock,
+                        description,
+                    },
+                    {
+                        headers: {
+                            authorization: `Bearer ${userInfo.token}`,
+                        },
+                    }
+                );
+            } else {
+                await axios.put(
+                    `/api/admin/products/${productId}`,
+                    {
+                        name,
+                        slug,
+                        price,
+                        category,
+                        brand,
+                        countInStock,
+                        description,
+                    },
+                    {
+                        headers: {
+                            authorization: `Bearer ${userInfo.token}`,
+                        },
+                    }
+                );
+            }
             toast.success('Product updated successfully', {
                 theme: 'colored',
             });
             dispatch({ type: 'UPDATE_SUCCESS' });
-            router.push('/admin/products');
         } catch (err) {
             dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
             toast.error(getError(err), {

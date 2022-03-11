@@ -11,7 +11,8 @@ import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface IState {
@@ -71,6 +72,7 @@ interface Props {
 
 const UserEditPage = ({ params }: Props) => {
     const userId = params.id;
+    console.log(userId, 'userId');
     const { state } = useContext(Store);
     const [{ loading, error, loadingUpdate }, dispatch] = useReducer(
         reducer,
@@ -126,7 +128,6 @@ const UserEditPage = ({ params }: Props) => {
             toast.success('User updated successfully', {
                 theme: 'colored',
             });
-            router.push('/admin/products');
         } catch (err) {
             dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
             toast.error(getError(err), {

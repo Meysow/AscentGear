@@ -9,7 +9,8 @@ import { useForm } from 'react-hook-form';
 import CheckoutWizard from '../../elements/CheckoutWizard';
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 type FormValues = {
@@ -27,6 +28,7 @@ const ShippingPage = () => {
     const {
         userInfo,
         cart: { shippingAddress },
+        darkMode,
     } = state;
     const router = useRouter();
 
@@ -60,7 +62,7 @@ const ShippingPage = () => {
                 </div>
                 <form
                     onSubmit={handleSubmit(submitHandler)}
-                    className={styles.form}
+                    className={`${styles.form} ${darkMode && styles.darkMode}`}
                 >
                     <h1>Shipping</h1>
                     <div>

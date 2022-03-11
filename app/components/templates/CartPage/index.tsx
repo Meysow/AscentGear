@@ -11,7 +11,8 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 const CartPage = () => {

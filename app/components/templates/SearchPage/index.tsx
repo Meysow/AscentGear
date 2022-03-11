@@ -1,11 +1,12 @@
 import styles from './SearchPage.module.scss';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ListBox from '../../elements/ListBox';
 import SearchBox from '../../elements/SearchBox';
 import Cards from '../../modules/Cards';
 import Pagination from '../../elements/Pagination';
+import { Store } from '../../../utils/Store';
 
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout'),
@@ -34,6 +35,8 @@ const PageSize = 3;
 const SearchPage = ({ serverProps }: any) => {
     const { products, countProducts, categories, brands, pages } = serverProps;
     const [currentPage, setCurrentPage] = useState(1);
+    const { state } = useContext(Store);
+    const { darkMode } = state;
 
     const router = useRouter();
     const {
@@ -192,7 +195,6 @@ const SearchPage = ({ serverProps }: any) => {
                         </div>
                         <div>
                             <Pagination
-                                className={styles.paginationBar}
                                 currentPage={currentPage}
                                 pages={pages}
                                 pageSize={PageSize}
@@ -201,6 +203,7 @@ const SearchPage = ({ serverProps }: any) => {
                                     pageHandler(page);
                                 }}
                                 siblingCount={1}
+                                className={darkMode && 'darkMode'}
                             />
                         </div>
                     </div>

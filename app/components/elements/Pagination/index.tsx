@@ -9,7 +9,7 @@ interface Props {
     siblingCount: number;
     currentPage: number;
     pageSize: number;
-    className: string | string[];
+    className: string | boolean;
 }
 
 const Pagination = (props: Props) => {
@@ -19,6 +19,7 @@ const Pagination = (props: Props) => {
         siblingCount = 1,
         currentPage,
         pageSize,
+        className,
     } = props;
 
     const paginationRange = usePagination({
@@ -41,8 +42,15 @@ const Pagination = (props: Props) => {
     };
 
     let lastPage = paginationRange[paginationRange.length - 1];
+
+    console.log(className, 'className');
+
     return (
-        <ul className={styles.paginationContainer}>
+        <ul
+            className={`${styles.paginationContainer} ${
+                className && styles[`${className}`]
+            }`}
+        >
             <li
                 className={`${styles.paginationItem} ${
                     currentPage === 1 && styles.disabled

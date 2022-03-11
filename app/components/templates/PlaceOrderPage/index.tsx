@@ -14,7 +14,8 @@ import { ProductType } from '../../../../typings';
 import { getError } from '../../../utils/error';
 import LoadingSpinner from '../../elements/LoadingSpinner';
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 const PlaceOrderPage = () => {
@@ -23,6 +24,7 @@ const PlaceOrderPage = () => {
     const {
         userInfo,
         cart: { cartItems, shippingAddress, paymentMethod },
+        darkMode,
     } = state;
 
     const round2 = (num: number) =>
@@ -90,7 +92,11 @@ const PlaceOrderPage = () => {
                 </div>
                 <h1>Place Order</h1>
 
-                <div className={styles.container}>
+                <div
+                    className={`${styles.container} ${
+                        darkMode && styles.darkMode
+                    }`}
+                >
                     <div className={styles.leftSection}>
                         <div className={styles.rows}>
                             <h3>Shipping Adress</h3>

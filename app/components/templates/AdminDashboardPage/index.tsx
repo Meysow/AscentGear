@@ -19,7 +19,8 @@ import LoadingSpinner from '../../elements/LoadingSpinner';
 ChartJS.register(CategoryScale, LinearScale, BarElement);
 
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface IState {
@@ -139,7 +140,9 @@ const AdminDashboardPage = () => {
                                             <div className={styles.item}>
                                                 <h2>${summary.ordersPrice}</h2>
                                                 <p>Sales</p>
-                                                <p>View sales</p>
+                                                <p className={styles.itemBtn}>
+                                                    View sales
+                                                </p>
                                             </div>
                                         </a>
                                     </Link>
@@ -148,7 +151,9 @@ const AdminDashboardPage = () => {
                                             <div className={styles.item}>
                                                 <h2>{summary.ordersCount}</h2>
                                                 <p>Orders</p>
-                                                <p>View orders</p>
+                                                <p className={styles.itemBtn}>
+                                                    View orders
+                                                </p>
                                             </div>
                                         </a>
                                     </Link>
@@ -157,7 +162,9 @@ const AdminDashboardPage = () => {
                                             <div className={styles.item}>
                                                 <h2>{summary.productsCount}</h2>
                                                 <p>Products</p>
-                                                <p>View products</p>
+                                                <p className={styles.itemBtn}>
+                                                    View products
+                                                </p>
                                             </div>
                                         </a>
                                     </Link>
@@ -166,7 +173,9 @@ const AdminDashboardPage = () => {
                                             <div className={styles.item}>
                                                 <h2>{summary.usersCount}</h2>
                                                 <p>Users</p>
-                                                <p>View users</p>
+                                                <p className={styles.itemBtn}>
+                                                    View users
+                                                </p>
                                             </div>
                                         </a>
                                     </Link>

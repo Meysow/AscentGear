@@ -18,7 +18,8 @@ import { toast } from 'react-toastify';
 import LoadingSpinner from '../../elements/LoadingSpinner';
 import Button from '../../elements/Button';
 const DynamicDefaultLayout = dynamic(
-    () => import('../../layouts/DefaultLayout')
+    () => import('../../layouts/DefaultLayout'),
+    { ssr: false }
 );
 
 interface Props {
