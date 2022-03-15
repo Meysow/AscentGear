@@ -21,7 +21,10 @@ Router.events.on('routeChangeError', () => NProgress.done());
 function MyApp({ Component, pageProps }: AppProps) {
     return (
         <StoreProvider>
-            <PayPalScriptProvider deferLoading={true}>
+            <PayPalScriptProvider
+                options={{ 'client-id': 'test' }}
+                deferLoading={true}
+            >
                 <Component {...pageProps} />
             </PayPalScriptProvider>
         </StoreProvider>
