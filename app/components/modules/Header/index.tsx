@@ -23,8 +23,12 @@ const Header = () => {
         let isMounted = true;
         const fetchCategories = async () => {
             try {
-                const { data } = await axios.get(`/api/products/categories`);
-                if (isMounted) setCategories(data);
+                if (isMounted) {
+                    const { data } = await axios.get(
+                        `/api/products/categories`
+                    );
+                    setCategories(data);
+                }
             } catch (err) {
                 toast.error(getError(err), { theme: 'colored' });
             }
