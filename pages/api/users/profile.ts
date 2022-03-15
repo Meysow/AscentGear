@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiResponse } from 'next';
 import nc from 'next-connect';
 import dbConnect from '../../../lib/dbConnect';
 import User from '../../../models/User';
@@ -8,7 +8,7 @@ import { isAuth, signToken } from '../../../app/utils/auth';
 const handler = nc();
 handler.use(isAuth);
 
-handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
+handler.put(async (req: any, res: NextApiResponse) => {
     await dbConnect();
 
     try {
