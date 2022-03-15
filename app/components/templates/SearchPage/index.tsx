@@ -142,7 +142,7 @@ const SearchPage = ({ serverProps }: any) => {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.rightHeader}>
-                            <p>
+                            <p className={styles.flexOptions}>
                                 {' '}
                                 {products.length === 0
                                     ? 'No'

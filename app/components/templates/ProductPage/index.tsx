@@ -140,7 +140,9 @@ const ProductPage = ({ product }: Props) => {
                                         </a>
                                     </Link>
                                 </li>
-                                <li>Description: {product.description}</li>
+                                <li>
+                                    Description: <br /> {product.description}
+                                </li>
                             </ul>
                         </div>
 

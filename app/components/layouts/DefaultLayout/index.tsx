@@ -1,13 +1,12 @@
 import Head from 'next/head';
-import styles from './DefaultLayout.module.scss';
-import Footer from '../../modules/Footer';
-import { useContext, useState } from 'react';
-import { Store } from '../../../utils/Store';
-import Cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
+import { useContext } from 'react';
+import Cookies from 'js-cookie';
+import { Store } from '../../../utils/Store';
+import Footer from '../../modules/Footer';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
-import { useRouter } from 'next/router';
+import 'react-toastify/dist/ReactToastify.css';
+import styles from './DefaultLayout.module.scss';
 
 const DynamicHeader = dynamic(() => import('../../modules/Header'), {
     ssr: false,
@@ -20,7 +19,6 @@ const DefaultLayout = ({
     title?: string;
     children: JSX.Element;
 }) => {
-    const router = useRouter();
     const { state } = useContext(Store);
     const { darkMode } = state;
 
