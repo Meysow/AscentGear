@@ -2,8 +2,19 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import { isAuth, isAdmin } from '../../../app/utils/auth';
 import { onError } from '../../../app/utils/error';
-import { v2 as cloudinary } from 'cloudinary';
 import dbConnect from '../../../lib/dbConnect';
+
+import { v2 as cloudinary } from 'cloudinary';
+import 'dotenv/config';
+import Product from '../../../models/Product';
+import multer from 'multer';
+import path from 'path';
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -11,34 +22,67 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: '5mb',
-        },
-    },
-};
-
 const handler = nextConnect({ onError });
-handler.use(isAuth, isAdmin);
-
-handler.post(async (req: NextApiRequest, res: NextApiResponse) => {
-    await dbConnect();
-    try {
-        const fileStr = req.body.data;
-        const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
-            upload_preset: 'dev_setups',
-        });
-        res.json({
-            message: 'Successfully uploaded !',
-            url: uploadedResponse.secure_url,
-        });
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            message: 'Something wrong Happend in upload',
-        });
-    }
+const upload = multer({
+    storage: multer.diskStorage({}),
+    fileFilter: (_, file, cb) => {
+        const ext = path.extname(file.originalname);
+        if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+            cb(new Error('File is not supported'));
+            return;
+        }
+        cb(null, true);
+    },
 });
+
+handler
+    .use(isAuth, isAdmin, upload.single('file'))
+    .post(async (req: any, res: NextApiResponse) => {
+        await dbConnect();
+        try {
+            const product = await Product.findById(req.body.productId);
+
+            // Destroy old Image if it exists //
+            if (req.body.imageField === 'file') {
+                product.cloudinary_id_image &&
+                    (await cloudinary.uploader.destroy(
+                        product.cloudinary_id_image
+                    ));
+            }
+
+            // Destroy old Featured Image if it exists //
+            if (req.body.imageField === 'featuredFile') {
+                product.cloudinary_id_featuredImage &&
+                    (await cloudinary.uploader.destroy(
+                        product.cloudinary_id_featuredImage
+                    ));
+            }
+
+            const result = await cloudinary.uploader.upload(req.file.path, {
+                upload_preset: 'Amazona',
+            });
+
+            // Update Public ID of Image //
+            if (req.body.imageField === 'file') {
+                await Product.findByIdAndUpdate(req.body.productId, {
+                    cloudinary_id_image: result.public_id,
+                });
+            }
+
+            // Update Public ID of Featured Image //
+            if (req.body.imageField === 'featuredFile') {
+                await Product.findByIdAndUpdate(req.body.productId, {
+                    cloudinary_id_featuredImage: result.public_id,
+                });
+            }
+
+            res.send(result);
+        } catch (error) {
+            console.log(error, 'Something wrong Happend in upload');
+            res.status(500).json({
+                message: 'Something wrong Happend in upload',
+            });
+        }
+    });
 
 export default handler;

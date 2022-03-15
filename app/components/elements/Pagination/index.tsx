@@ -43,8 +43,6 @@ const Pagination = (props: Props) => {
 
     let lastPage = paginationRange[paginationRange.length - 1];
 
-    console.log(className, 'className');
-
     return (
         <ul
             className={`${styles.paginationContainer} ${

@@ -88,7 +88,7 @@ const Header = () => {
                 </Link>
                 <div className={styles.right}>
                     <SwitchButton
-                        darkModeHandler={darkModeHandler}
+                        onChangeHandler={darkModeHandler}
                         checked={darkMode}
                     />
                     <Link href='/cart'>

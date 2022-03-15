@@ -4,6 +4,22 @@ import { isAuth, isAdmin } from '../../../../../app/utils/auth';
 import Product from '../../../../../models/Product';
 import dbConnect from '../../../../../lib/dbConnect';
 
+import { v2 as cloudinary } from 'cloudinary';
+import 'dotenv/config';
+// import upload from '../../../../../app/utils/multer';
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// export const config = {
+//     api: {
+//         bodyParser: false,
+//     },
+// };
+
 const handler = nc();
 handler.use(isAuth, isAdmin);
 
@@ -17,14 +33,20 @@ handler.get(async (req: NextApiRequest, res: NextApiResponse) => {
 handler.put(async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
     const product = await Product.findById(req.query.id);
+
     if (product) {
         product.name = req.body.name;
         product.slug = req.body.slug;
         product.price = req.body.price;
         product.category = req.body.category;
-        if (req.body.image) {
-            product.image = req.body.image;
-        } // Check if user updated the image, if not, keep the old image.
+        product.image = req.body.image || product.image;
+        product.cloudinary_id_image =
+            req.body.cloudinary_id_image || product.cloudinary_id_image;
+        product.isFeatured = req.body.isFeatured || product.isFeatured;
+        product.featuredImage = req.body.featuredImage || product.featuredImage;
+        product.cloudinary_id_image =
+            req.body.cloudinary_id_featuredImage ||
+            product.cloudinary_id_featuredImage;
         product.brand = req.body.brand;
         product.countInStock = req.body.countInStock;
         product.description = req.body.description;
@@ -39,6 +61,18 @@ handler.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
     const product = await Product.findById(req.query.id);
     if (product) {
+        // Clean Cloudinary //
+        // Destroy old Image if it exists //
+        product.cloudinary_id_image &&
+            (await cloudinary.uploader.destroy(product.cloudinary_id_image));
+
+        // Destroy old Featured Image if it exists //
+        product.cloudinary_id_featuredImage &&
+            (await cloudinary.uploader.destroy(
+                product.cloudinary_id_featuredImage
+            ));
+
+        // Remove product from DB //
         await product.remove();
         res.send({ message: 'Product Deleted' });
     } else {

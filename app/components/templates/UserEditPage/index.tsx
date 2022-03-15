@@ -72,7 +72,6 @@ interface Props {
 
 const UserEditPage = ({ params }: Props) => {
     const userId = params.id;
-    console.log(userId, 'userId');
     const { state } = useContext(Store);
     const [{ loading, error, loadingUpdate }, dispatch] = useReducer(
         reducer,

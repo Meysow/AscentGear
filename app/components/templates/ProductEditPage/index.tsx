@@ -9,6 +9,8 @@ import { Store } from '../../../utils/Store';
 import { getError } from '../../../utils/error';
 import Button from '../../elements/Button';
 import LoadingSpinner from '../../elements/LoadingSpinner';
+import Image from 'next/image';
+import SwitchButton from '../../elements/SwitchButton';
 
 const DynamicDefaultLayout = dynamic(
     () => import('../../layouts/DefaultLayout'),
@@ -77,12 +79,17 @@ const ProductEditPage = ({ params }: Props) => {
     const { state } = useContext(Store);
     const [{ loading, error, loadingUpdate, loadingUpload }, dispatch] =
         useReducer(reducer, initialState);
-    const { register, handleSubmit, formState, setValue } = useForm();
+    const { register, handleSubmit, formState, setValue, watch } = useForm();
+
     const router = useRouter();
     const { userInfo } = state;
 
-    const [previewSource, setPreviewSource] = useState<any>();
-    const [initialSource, setInitialSource] = useState<any>();
+    const [securedURL, setSecuredURL] = useState<string>();
+    const [imageId, setImageId] = useState<string>();
+    const [isFeatured, setIsFeatured] = useState<boolean>(false);
+
+    const [securedURLFeatured, setSecuredURLFeatured] = useState<string>('');
+    const [imageIdFeatured, setImageIdFeatured] = useState<string>('');
 
     useEffect(() => {
         if (!userInfo) {
@@ -104,7 +111,10 @@ const ProductEditPage = ({ params }: Props) => {
                     setValue('name', data.name);
                     setValue('slug', data.slug);
                     setValue('price', data.price);
-                    setInitialSource(data.image);
+                    setSecuredURL(data.image);
+                    setIsFeatured(data.isFeatured);
+                    data.featuredImage &&
+                        setSecuredURLFeatured(data.featuredImage);
                     setValue('category', data.category);
                     setValue('brand', data.brand);
                     setValue('countInStock', data.countInStock);
@@ -119,6 +129,49 @@ const ProductEditPage = ({ params }: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const uploadHandler = async (e: any, imageField = 'file') => {
+        const file = e.target.files[0];
+        const bodyFormData = new FormData();
+        bodyFormData.append('file', file);
+        bodyFormData.append('productId', productId);
+        bodyFormData.append('imageField', imageField);
+
+        try {
+            dispatch({ type: 'UPLOAD_REQUEST' });
+            const { data } = await axios.post(
+                '/api/admin/upload',
+                bodyFormData,
+                {
+                    headers: {
+                        authorization: `Bearer ${userInfo.token}`,
+                    },
+                }
+            );
+            dispatch({ type: 'UPLOAD_SUCCESS' });
+            console.log(data, 'data');
+            console.log(data.secure_url, 'data.secure_url');
+
+            if (imageField === 'file') {
+                setSecuredURL(data.secure_url);
+                setImageId(data.public_id);
+            }
+
+            if (imageField === 'featuredFile') {
+                setSecuredURLFeatured(data.secure_url);
+                setImageIdFeatured(data.public_id);
+            }
+
+            toast.success('Image Uploaded Successfully', {
+                theme: 'colored',
+            });
+        } catch (err) {
+            dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
+            toast.error('Error in Image Upload', {
+                theme: 'colored',
+            });
+        }
+    };
+
     const submitHandler = async ({
         name,
         slug,
@@ -131,9 +184,14 @@ const ProductEditPage = ({ params }: Props) => {
         toast.dismiss();
         try {
             dispatch({ type: 'UPDATE_REQUEST' });
-            if (previewSource) {
-                const image = previewSource;
-                uploadImage(previewSource);
+            if (isFeatured) {
+                if (!securedURLFeatured || securedURLFeatured === '') {
+                    toast.error('Please upload a Featured Image', {
+                        theme: 'colored',
+                    });
+                    return;
+                }
+
                 await axios.put(
                     `/api/admin/products/${productId}`,
                     {
@@ -141,7 +199,11 @@ const ProductEditPage = ({ params }: Props) => {
                         slug,
                         price,
                         category,
-                        image,
+                        image: securedURL,
+                        cloudinary_id_image: imageId,
+                        isFeatured: isFeatured,
+                        featuredImage: securedURLFeatured,
+                        cloudinary_id_featuredImage: imageIdFeatured,
                         brand,
                         countInStock,
                         description,
@@ -160,6 +222,9 @@ const ProductEditPage = ({ params }: Props) => {
                         slug,
                         price,
                         category,
+                        image: securedURL,
+                        cloudinary_id_image: imageId,
+                        isFeatured,
                         brand,
                         countInStock,
                         description,
@@ -171,43 +236,22 @@ const ProductEditPage = ({ params }: Props) => {
                     }
                 );
             }
+
             toast.success('Product updated successfully', {
                 theme: 'colored',
             });
             dispatch({ type: 'UPDATE_SUCCESS' });
         } catch (err) {
             dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
+            console.log(err, 'error in submitHandler');
             toast.error(getError(err), {
                 theme: 'colored',
             });
         }
     };
 
-    // Upload Part //
-
-    const handleFileInputChange = (e: any) => {
-        const file = e.target.files[0];
-        previewFile(file);
-    };
-
-    const previewFile = (file: any) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setPreviewSource(reader.result);
-        };
-    };
-
-    const uploadImage = async (base64EncodedImage: any) => {
-        if (initialSource === previewSource) return; // We don't upload the image on Cloudinary if the image has not been changed
-        try {
-            const data = JSON.stringify({ data: base64EncodedImage });
-            await axios.post('/api/upload', data, {
-                headers: { 'Content-type': 'application/json' },
-            });
-        } catch (error) {
-            console.log(error);
-        }
+    const switchHandler = () => {
+        setIsFeatured((prev: boolean) => !prev);
     };
 
     return (
@@ -322,36 +366,90 @@ const ProductEditPage = ({ params }: Props) => {
                                 <input
                                     type='file'
                                     id='image'
-                                    name='image'
+                                    name='file'
                                     className={styles.ipt}
-                                    onChange={handleFileInputChange}
+                                    onChange={uploadHandler}
                                 />
                             </label>
-                            {previewSource && (
+
+                            {securedURL && (
                                 <>
                                     <p className={styles.imageTitle}>
-                                        New Image :
+                                        Preview :
                                     </p>
-                                    <img
-                                        src={previewSource}
-                                        alt='choosen'
-                                        className={styles.imagePreview}
-                                    />
-                                </>
-                            )}
-                            {initialSource && (
-                                <>
-                                    <p className={styles.imageTitle}>
-                                        Current Image :
-                                    </p>
-                                    <img
-                                        src={initialSource}
-                                        alt='Current'
-                                        className={styles.imagePreview}
-                                    />
+                                    <div className={styles.imagePreview}>
+                                        <Image
+                                            src={securedURL}
+                                            alt='choosen'
+                                            height={200}
+                                            width={200}
+                                            layout='responsive'
+                                            objectFit='cover'
+                                            priority
+                                        />
+                                    </div>
+                                    {loadingUpload && (
+                                        <div>
+                                            <LoadingSpinner dark />
+                                        </div>
+                                    )}
                                 </>
                             )}
                         </div>
+
+                        <div>
+                            <label className={styles.lbl}>
+                                Is Featured
+                                <div className={styles.switchFlex}>
+                                    <span>NO</span>
+                                    <SwitchButton
+                                        onChangeHandler={switchHandler}
+                                        checked={isFeatured}
+                                    />
+                                    <span>YES</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        {isFeatured && (
+                            <div>
+                                <label className={styles.lbl}>
+                                    Featured Image
+                                    <input
+                                        type='file'
+                                        id='featuredImage'
+                                        name='featuredFile'
+                                        className={styles.ipt}
+                                        onChange={(e) =>
+                                            uploadHandler(e, 'featuredFile')
+                                        }
+                                    />
+                                </label>
+                                {securedURLFeatured && (
+                                    <>
+                                        <p className={styles.imageTitle}>
+                                            Preview :
+                                        </p>
+                                        <div className={styles.imagePreview}>
+                                            <Image
+                                                src={securedURLFeatured}
+                                                alt='Featured'
+                                                height={200}
+                                                width={200}
+                                                layout='responsive'
+                                                objectFit='cover'
+                                                priority
+                                            />
+                                        </div>
+                                        {loadingUpload && (
+                                            <div>
+                                                <LoadingSpinner dark />
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        )}
 
                         <div>
                             <label className={styles.lbl}>

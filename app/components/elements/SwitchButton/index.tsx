@@ -1,16 +1,16 @@
 import styles from './SwitchButton.module.scss';
 
 interface Props {
-    darkModeHandler: () => void;
+    onChangeHandler: () => void;
     checked: boolean;
 }
 
-const SwitchButton = ({ darkModeHandler, checked }: Props) => {
+const SwitchButton = ({ onChangeHandler, checked }: Props) => {
     return (
         <label className={styles.switch}>
             <input
                 type='checkbox'
-                onChange={darkModeHandler}
+                onChange={onChangeHandler}
                 className={styles['checkbox-input']}
                 checked={checked}
             />

@@ -1,0 +1,55 @@
+@import '../../../styles/app.scss';
+
+.carousel {
+    overflow: hidden;
+
+    margin: 1rem;
+
+    @include breakpoint('sm') {
+        margin: 1.5rem;
+    }
+
+    @include breakpoint('md') {
+        margin: 2rem 1.5rem;
+    }
+
+    @include breakpoint('lg') {
+        margin: 2.5rem 2rem;
+    }
+    filter: drop-shadow(1px 2px 5px rgba($color-dark, 0.23));
+}
+
+.inner {
+    white-space: nowrap;
+    transition: transform 0.3s;
+}
+
+.carouselItem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    color: #fff;
+    overflow: hidden;
+    border-radius: 0.8rem;
+}
+
+.indicators {
+    display: flex;
+    justify-content: center;
+}
+
+.indicators > button {
+    margin: 5px;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    outline: none;
+    border: none;
+    background-color: rgba($color-5, 0.318);
+    cursor: pointer;
+}
+
+.indicators > button.active {
+    background-color: $color-5;
+}

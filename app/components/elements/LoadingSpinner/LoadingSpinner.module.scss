@@ -1,3 +1,5 @@
+@import '../../../styles/app.scss';
+
 .ldsDefault {
     display: inline-block;
     position: relative;
@@ -82,4 +84,9 @@
     50% {
         transform: scale(1.5);
     }
+}
+
+// Dark //
+.ldsDefault.dark div {
+    background: $color-4;
 }

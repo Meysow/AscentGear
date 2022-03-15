@@ -14,6 +14,8 @@ export interface ProductType {
     createdAt: string;
     updatedAt: string;
     quantity: number;
+    featuredImage: string;
+    isFeatured: boolean;
 }
 
 export interface ProductArray {

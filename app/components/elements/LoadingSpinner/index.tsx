@@ -1,8 +1,12 @@
 import styles from './LoadingSpinner.module.scss';
 
-const LoadingSpinner = () => {
+interface Props {
+    dark?: boolean;
+}
+
+const LoadingSpinner = ({ dark }: Props) => {
     return (
-        <div className={styles.ldsDefault}>
+        <div className={`${styles.ldsDefault} ${dark ? styles.dark : ''}`}>
             <div></div>
             <div></div>
             <div></div>
