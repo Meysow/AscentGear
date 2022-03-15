@@ -8,7 +8,8 @@ const handler = nc();
 handler.get(async (_, res: NextApiResponse) => {
     await dbConnect;
     const categories = await Product.find().distinct('category');
-    res.send(categories);
+    // res.send(categories);
+    res.status(200).json({ categories });
 });
 
 export default handler;
