@@ -2,33 +2,35 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { ActionType, Store } from "../../../utils/Store";
+import { getError } from "../../../utils/error";
 import Button from "../../elements/Button";
 import HamburgerButton from "../../elements/HamburgerButton";
 import SwitchButton from "../../elements/SwitchButton";
 import styles from "./Header.module.scss";
 
-const Header = ({ categories }: { categories: string[] }) => {
+export default function Header() {
   const [active, setActive] = useState(false);
   const { state, dispatch } = useContext(Store);
   const { darkMode, cart, userInfo } = state;
   const router = useRouter();
 
-  // const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchCategories = async () => {
-  //     try {
-  //       const { data } = await axios.get(`/api/products/categories`);
-  //       setCategories(data);
-  //     } catch (err) {
-  //       toast.error(getError(err), { theme: "colored" });
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/categories`);
+        setCategories(data);
+      } catch (err) {
+        toast.error(getError(err), { theme: "colored" });
+      }
+    };
 
-  //   fetchCategories();
-  // }, []);
+    fetchCategories();
+  }, []);
 
   const toggleDarkMode = () => {
     dispatch({
@@ -121,25 +123,4 @@ const Header = ({ categories }: { categories: string[] }) => {
       </nav>
     </header>
   );
-};
-
-export default Header;
-
-export async function getStaticProps() {
-  let categories = [];
-  try {
-    const response = await axios.get(
-      `${process.env.API_URL}/api/products/categories`
-    );
-    categories = response.data;
-  } catch (error) {
-    console.error("Failed to fetch categories:", error);
-  }
-
-  return {
-    props: {
-      categories,
-    },
-    revalidate: 600, // Revalidate once a day. Adjust this value as needed.
-  };
 }
