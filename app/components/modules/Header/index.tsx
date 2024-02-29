@@ -8,6 +8,7 @@ import { ActionType, Store } from "../../../utils/Store";
 import { getError } from "../../../utils/error";
 import Button from "../../elements/Button";
 import HamburgerButton from "../../elements/HamburgerButton";
+import LoadingSpinner from "../../elements/LoadingSpinner";
 import SwitchButton from "../../elements/SwitchButton";
 import styles from "./Header.module.scss";
 
@@ -18,14 +19,18 @@ export default function Header() {
   const router = useRouter();
 
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
+      setLoading(true);
       try {
         const { data } = await axios.get(`/api/products/categories`);
         setCategories(data);
+        setLoading(false);
       } catch (err) {
         toast.error(getError(err), { theme: "colored" });
+        setLoading(false);
       }
     };
 
@@ -64,6 +69,7 @@ export default function Header() {
           {categories && (
             <>
               <ul className={styles.categories}>
+                {loading && <LoadingSpinner />}
                 {categories.map((category) => (
                   <li key={category}>
                     <Link href={`/search?category=${category}`}>
