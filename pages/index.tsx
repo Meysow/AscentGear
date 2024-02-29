@@ -48,7 +48,7 @@ export async function getStaticProps() {
         featuredProducts,
         topRatedProducts,
       },
-      revalidate: 1800, // Adjust depending on your content update frequency
+      revalidate: 600, // Adjust depending on your content update frequency
     };
   } catch (error) {
     console.error("Failed to fetch products:", error);

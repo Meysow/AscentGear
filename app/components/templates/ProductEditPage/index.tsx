@@ -230,9 +230,12 @@ const ProductEditPage = ({ params }: Props) => {
         );
       }
 
-      toast.success("Product updated successfully", {
-        theme: "colored",
-      });
+      toast.success(
+        "Product updated successfully, change will take up to 10mn to appear.",
+        {
+          theme: "colored",
+        }
+      );
       dispatch({ type: "UPDATE_SUCCESS" });
     } catch (err) {
       dispatch({ type: "UPDATE_FAIL", payload: getError(err) });
