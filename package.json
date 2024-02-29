@@ -1,5 +1,5 @@
 {
-  "name": "next-amazona-app",
+  "name": "next-ascentgear-app",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -28,9 +28,9 @@
     "next-connect": "^0.12.1",
     "nodemon": "^2.0.15",
     "nprogress": "^0.2.0",
-    "react": "17.0.2",
+    "react": "18.2.0",
     "react-chartjs-2": "^4.0.1",
-    "react-dom": "17.0.2",
+    "react-dom": "18.2.0",
     "react-hook-form": "^7.27.1",
     "react-simple-star-rating": "^4.0.5",
     "react-swipeable": "^6.2.0",

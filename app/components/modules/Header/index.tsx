@@ -85,7 +85,7 @@ const Header = () => {
                 </HamburgerButton>
                 <Link href='/'>
                     <a>
-                        <div className={styles.logo}>Amazona</div>
+                        <div className={styles.logo}>AscentGear</div>
                     </a>
                 </Link>
                 <div className={styles.right}>

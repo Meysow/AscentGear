@@ -1,138 +1,140 @@
-@import '../../../styles/app.scss';
+@import "../../../styles/app.scss";
 
 .container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem;
 
-    @include breakpoint('md') {
-        flex-wrap: nowrap;
+  @include breakpoint("md") {
+    flex-wrap: nowrap;
+  }
+
+  .containerLeft {
+    flex: 1 1 25%;
+    @include card;
+    padding: 1.6rem;
+    align-self: flex-start;
+
+    .containerLeftButton {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
     }
+  }
 
-    .containerLeft {
-        flex: 1 1 25%;
-        @include card;
-        padding: 1.6rem;
-        align-self: flex-start;
-
-        .containerLeftButton {
-            display: flex;
-            flex-direction: column;
-            gap: 1.6rem;
-        }
+  .containerRight {
+    h1 {
+      margin-bottom: 2.4rem;
     }
+    flex: 1 1 75%;
+    @include card;
+    padding: 1.6rem;
 
-    .containerRight {
-        h1 {
-            margin-bottom: 2.4rem;
-        }
-        flex: 1 1 75%;
-        @include card;
-        padding: 1.6rem;
+    .row {
+      display: flex;
+      margin-bottom: 1.6rem;
+      align-items: center;
+      gap: 0.6rem;
 
-        .row {
-            display: flex;
-            margin-bottom: 1.6rem;
-            align-items: center;
-            gap: 0.6rem;
-
-            & > * {
-                flex: 1;
-            }
-        }
+      & > * {
+        flex: 1;
+      }
     }
+  }
 }
 
 .form {
-    max-width: 40rem;
-    margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2.3rem;
+  max-width: 40rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2.3rem;
 }
 
 .lbl {
-    font-family: $font-1;
-    font-size: 1.4rem;
-    display: flex;
-    flex-direction: column;
-    color: $color-secondary;
-    animation: 0.3s;
-    -webkit-animation: 0.3s;
+  font-family: $font-1;
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  color: $color-secondary;
+  &.darkMode {
+    color: $color-light;
+  }
+  animation: 0.3s;
+  -webkit-animation: 0.3s;
 
-    &:hover {
-        color: $color-4;
+  &:hover {
+    color: $color-4;
 
-        & .ipt {
-            border-color: $color-4;
-        }
+    & .ipt {
+      border-color: $color-4;
     }
+  }
 
-    &:focus-within {
-        color: $color-4;
+  &:focus-within {
+    color: $color-4;
 
-        & .ipt {
-            border-color: $color-4;
-            background-color: rgba($color-4, 0.0318);
-        }
+    & .ipt {
+      border-color: $color-4;
     }
+  }
 }
 
 .ipt {
-    margin-top: 0.5rem;
-    border: 1px solid $color-dark;
-    border-radius: 0.8rem;
-    -webkit-border-radius: 0.8rem;
-    -moz-border-radius: 0.8rem;
-    -ms-border-radius: 0.8rem;
-    -o-border-radius: 0.8rem;
-    animation: 0.3s;
-    -webkit-animation: 0.3s;
-    outline: none;
-    font-family: $font-3;
+  margin-top: 0.5rem;
+  border: 1px solid $color-dark;
+  border-radius: 0.8rem;
+  -webkit-border-radius: 0.8rem;
+  -moz-border-radius: 0.8rem;
+  -ms-border-radius: 0.8rem;
+  -o-border-radius: 0.8rem;
+  animation: 0.3s;
+  -webkit-animation: 0.3s;
+  outline: none;
+  font-family: $font-3;
+  font-weight: 500;
+  font-size: 1.6rem;
+  color: $color-dark;
+  padding: 1rem 2rem;
+  &::placeholder {
+    font-family: $font-1;
     font-weight: 500;
     font-size: 1.6rem;
     color: $color-dark;
-    padding: 1rem 2rem;
-    &::placeholder {
-        font-family: $font-1;
-        font-weight: 500;
-        font-size: 1.6rem;
-        color: $color-dark;
-    }
+  }
 }
 
 .btnContainer {
-    margin-top: 1.4rem;
+  margin-top: 1.4rem;
 }
 
 .error {
-    font-family: $font-3;
-    font-size: 1rem;
-    color: $color-danger;
-    margin-top: 0.3rem;
-    position: absolute;
+  font-family: $font-3;
+  font-size: 1rem;
+  color: $color-danger;
+  margin-top: 0.3rem;
+  position: absolute;
 }
 
 .imageTitle {
-    margin-top: 1.6rem;
-    margin-bottom: 0.8rem;
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
 }
 
 .imagePreview {
-    height: 200px;
-    width: 200px;
-    border-radius: 0.3rem;
-    overflow: hidden;
+  height: 200px;
+  width: 200px;
+  border-radius: 0.3rem;
+  overflow: hidden;
 }
 
 .switchFlex {
-    display: flex;
-    margin-top: 2rem;
-    align-items: center;
-    gap: 3rem;
+  display: flex;
+  margin-top: 2rem;
+  align-items: center;
+  gap: 3rem;
 
-    span::before {
-        background-color: $color-4;
-    }
+  span::before {
+    background-color: $color-4;
+  }
 }
