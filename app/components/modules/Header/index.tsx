@@ -69,7 +69,7 @@ export default function Header() {
           {categories && (
             <>
               <ul className={styles.categories}>
-                {loading && <LoadingSpinner />}
+                {loading && <LoadingSpinner dark />}
                 {categories.map((category) => (
                   <li key={category}>
                     <Link href={`/search?category=${category}`}>

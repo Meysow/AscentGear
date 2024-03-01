@@ -31,6 +31,7 @@ const HomePage = ({ topRatedProducts, featuredProducts }: Props) => (
                 alt={product.name}
                 layout="fill"
                 objectFit="cover"
+                priority
               />
             </a>
           </Link>
