@@ -1,41 +1,36 @@
-import axios from "axios";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { useContext, useState } from "react";
 import { ActionType, Store } from "../../../utils/Store";
-import { getError } from "../../../utils/error";
 import Button from "../../elements/Button";
 import HamburgerButton from "../../elements/HamburgerButton";
-import LoadingSpinner from "../../elements/LoadingSpinner";
 import SwitchButton from "../../elements/SwitchButton";
 import styles from "./Header.module.scss";
 
 export default function Header() {
   const [active, setActive] = useState(false);
   const { state, dispatch } = useContext(Store);
-  const { darkMode, cart, userInfo } = state;
+  const { darkMode, cart, userInfo, categories } = state;
   const router = useRouter();
 
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get(`/api/products/categories`);
-        setCategories(data);
-        setLoading(false);
-      } catch (err) {
-        toast.error(getError(err), { theme: "colored" });
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const { data } = await axios.get(`/api/products/categories`);
+  //       setCategories(data);
+  //       setLoading(false);
+  //     } catch (err) {
+  //       toast.error(getError(err), { theme: "colored" });
+  //       setLoading(false);
+  //     }
+  //   };
+  //
+  //   fetchCategories();
+  // }, []);
 
   const toggleDarkMode = () => {
     dispatch({
@@ -69,7 +64,6 @@ export default function Header() {
           {categories && (
             <>
               <ul className={styles.categories}>
-                {loading && <LoadingSpinner dark />}
                 {categories.map((category) => (
                   <li key={category}>
                     <Link href={`/search?category=${category}`}>

@@ -1,10 +1,9 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "../../../../typings";
 import Carousel, { CarouselItem } from "../../elements/Carousel";
 import SearchBox from "../../elements/SearchBox";
-// import Cards from "../../modules/Cards";
-import dynamic from "next/dynamic";
 import styles from "./HomePage.module.scss";
 
 const Cards = dynamic(() => import("../../modules/Cards"), {

@@ -1,5 +1,7 @@
 import dynamic from "next/dynamic";
+import { useContext, useEffect } from "react";
 import HomePage from "../app/components/templates/HomePage";
+import { ActionType, Store } from "../app/utils/Store";
 import dbConnect, { convertDocToObj } from "../lib/dbConnect";
 import Product from "../models/Product";
 import { ProductType } from "../typings";
@@ -13,9 +15,15 @@ const DynamicDefaultLayout = dynamic(
 interface Props {
   topRatedProducts: ProductType[];
   featuredProducts: ProductType[];
+  categories: string[];
 }
 
-const Home = ({ featuredProducts, topRatedProducts }: Props) => {
+const Home = ({ featuredProducts, topRatedProducts, categories }: Props) => {
+  const { dispatch } = useContext(Store);
+  useEffect(() => {
+    dispatch({ type: ActionType.SET_CATEGORIES, payload: categories });
+  }, [categories, dispatch]);
+
   return (
     <DynamicDefaultLayout title="Search">
       <HomePage
@@ -30,8 +38,7 @@ export async function getStaticProps() {
   try {
     await dbConnect();
 
-    // Combined query if possible, else keep as is but with added error handling
-    const [featuredProducts, topRatedProducts] = await Promise.all([
+    const [featuredProducts, topRatedProducts, categories] = await Promise.all([
       Product.find({ isFeatured: true }, "-reviews")
         .lean()
         .limit(3)
@@ -41,12 +48,14 @@ export async function getStaticProps() {
         .lean()
         .limit(6)
         .then((results) => results.map(convertDocToObj)),
+      Product.find().distinct("category"),
     ]);
 
     return {
       props: {
         featuredProducts,
         topRatedProducts,
+        categories,
       },
       revalidate: 1800, // Adjust depending on your content update frequency
     };
